@@ -1,0 +1,58 @@
+{
+  "name": "react-game-kit",
+  "version": "0.0.1",
+  "description": "Make games with react",
+  "main": "lib",
+  "files": [
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "start": "webpack-dev-server --inline --port 3000 --config webpack.config.dev.js --content-base public/",
+    "build": "babel src -d lib --copy-files",
+    "clean": "rimraf dist",
+    "clean-umd": "rimraf umd",
+    "dist": "npm run clean && webpack && cp -a public/. dist/",
+    "lint": "eslint src demo --fix",
+    "flow-check": "flow check",
+    "flow": "flow",
+    "umd": "npm run clean-umd && webpack --config webpack.config.umd.js"
+  },
+  "author": "Ken Wheeler",
+  "license": "MIT",
+  "repository": "https://github.com/FormidableLabs/react-music",
+  "dependencies": {
+    "mobx": "^2.5.0",
+    "mobx-react": "^3.5.5"
+  },
+  "peerDependencies": {
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^3.3.1",
+    "eslint-config-formidable": "^1.0.1",
+    "eslint-plugin-filenames": "^1.1.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.1.0",
+    "eslint-plugin-react": "^6.1.2",
+    "flow-bin": "^0.31.1",
+    "json-loader": "^0.5.4",
+    "postcss-loader": "^0.10.1",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
+    "rimraf": "^2.5.4",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.15.0"
+  }
+}

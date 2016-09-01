@@ -1,0 +1,16 @@
+[libs]
+interfaces
+
+[ignore]
+.*/dist/.*
+.*/lib/.*
+.*/umd/.*
+.*/demo/.*
+.*/node_modules/flow-bin/.*
+
+[include]
+src
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable

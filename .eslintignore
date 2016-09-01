@@ -1,0 +1,7 @@
+/demo/**
+/dist/**
+/interfaces/**
+/lib/**
+/node_modules/**
+/public/**
+/umd/**
