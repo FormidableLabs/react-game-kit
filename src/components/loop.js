@@ -2,28 +2,20 @@ import React, { Component, PropTypes } from 'react';
 
 import GameLoop from '../utils/game-loop';
 
-export default class Game extends Component {
+export default class Loop extends Component {
 
   static propTypes = {
     children: PropTypes.any,
-    stageHeight: PropTypes.number,
-    stageWidth: PropTypes.number,
     style: PropTypes.object,
-  };
-
-  static defaultProps = {
-    stageWidth: 1024,
-    stageHeight: 768,
   };
 
   static childContextTypes = {
     loop: PropTypes.object,
-    scale: PropTypes.number,
   };
 
   constructor(props) {
     super(props);
-    this.container = null;
+
     this.loop = new GameLoop();
   }
 
@@ -36,21 +28,7 @@ export default class Game extends Component {
   }
 
   getChildContext() {
-    const { container } = this;
-    const { stageWidth, stageHeight } = this.props;
-
-    if (!container) {
-      return {
-        scale: 0,
-        loop: this.loop,
-      };
-    }
-
-    const xScale = container.offsetWidth / stageWidth;
-    const yScale = container.offsetHeight / stageHeight;
-
     return {
-      scale: Math.max(xScale, yScale),
       loop: this.loop,
     };
   }
@@ -62,7 +40,7 @@ export default class Game extends Component {
     };
     const styles = { ...defaultStyles, ...this.props.style };
     return (
-      <div style={styles} ref={(c) => { this.container = c; }}>
+      <div style={styles}>
         {this.props.children}
       </div>
     );

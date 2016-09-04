@@ -17,7 +17,6 @@ export default class Sprite extends Component {
   static defaultProps = {
     animating: false,
     offset: [0, 0],
-    scale: 1,
     src: '',
     state: 0,
     states: [],
@@ -58,15 +57,17 @@ export default class Sprite extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.context.loop.unsubscribe(this.loopID);
-    this.tickCount = 0;
+    if (nextProps.state !== this.props.state) {
+      this.context.loop.unsubscribe(this.loopID);
+      this.tickCount = 0;
 
-    this.setState({
-      currentStep: 0,
-    }, () => {
-      const animate = this.animate.bind(this, nextProps);
-      this.loopID = this.context.loop.subscribe(animate);
-    });
+      this.setState({
+        currentStep: 0,
+      }, () => {
+        const animate = this.animate.bind(this, nextProps);
+        this.loopID = this.context.loop.subscribe(animate);
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -114,7 +115,7 @@ export default class Sprite extends Component {
       width: this.props.tileWidth,
       overflow: 'hidden',
       position: 'relative',
-      transform: `scale(${this.props.scale})`,
+      transform: `scale(${this.props.scale || this.context.scale})`,
       transformOrigin: 'top left',
       imageRendering: 'pixelated',
     };

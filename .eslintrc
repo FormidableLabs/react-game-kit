@@ -6,6 +6,7 @@
   "no-magic-numbers": 0
   "no-invalid-this": 0
   "react/sort-comp": 0
+  "prefer-const": 0
   "comma-dangle": [2, "always-multiline"]
   "jsx-quotes": [2, "prefer-double"]
   "quotes": [2, "single",{"allowTemplateLiterals": true}]
