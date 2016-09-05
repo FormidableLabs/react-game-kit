@@ -37,7 +37,7 @@ export default class Level extends Component {
   getWrapperStyles() {
     return {
       position: 'absolute',
-      transform: `translate(${this.state.stageX}px, 0px)`,
+      transform: `translate(${this.state.stageX}px, 0px) translateZ(0)`,
       transformOrigin: 'top left',
     };
   }

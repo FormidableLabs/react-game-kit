@@ -41,8 +41,10 @@ export default class Character extends Component {
     const { keys, store } = this.props;
     const { body } = this.body;
 
-    const shouldMoveStageLeft = body.position.x < 448 && store.stageX < 0;
-    const shouldMoveStageRight = body.position.x > 448 && store.stageX > -1024;
+    const midPoint = Math.abs(store.stageX) + 448;
+
+    const shouldMoveStageLeft = body.position.x < midPoint && store.stageX < 0;
+    const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -1024;
 
     if (body.velocity.y === 0) {
       this.isJumping = false;
@@ -62,17 +64,17 @@ export default class Character extends Component {
       if (keys.isDown(keys.LEFT) || gamepad.button(0, 'button 14')) {
         if (shouldMoveStageLeft) {
           store.setStageX(store.stageX + 5);
-        } else {
-          this.move(body, -5);
         }
+
+        this.move(body, -5);
 
         characterState = 1;
       } else if (keys.isDown(keys.RIGHT) || gamepad.button(0, 'button 15')) {
         if (shouldMoveStageRight) {
           store.setStageX(store.stageX - 5);
-        } else {
-          this.move(body, 5);
         }
+
+        this.move(body, 5);
 
         characterState = 0;
       }
@@ -82,7 +84,14 @@ export default class Character extends Component {
       this.setState({
         characterState,
       });
+    } else {
+      const targetX = store.stageX + (this.lastX - body.position.x);
+      if (shouldMoveStageLeft || shouldMoveStageRight) {
+        store.setStageX(targetX);
+      }
     }
+
+    this.lastX = body.position.x;
   };
 
   constructor(props) {
@@ -90,6 +99,7 @@ export default class Character extends Component {
 
     this.loopID = null;
     this.isJumping = false;
+    this.lastX = 0;
 
     this.state = {
       characterState: 2,
@@ -105,13 +115,14 @@ export default class Character extends Component {
   }
 
   getWrapperStyles() {
-    const { characterPosition } = this.props.store;
+    const { characterPosition, stageX } = this.props.store;
     const { scale } = this.context;
     const { x, y } = characterPosition;
+    const targetX = x + stageX;
 
     return {
       position: 'absolute',
-      transform: `translate(${x * scale}px, ${y * scale}px)`,
+      transform: `translate(${targetX * scale}px, ${y * scale}px)`,
       transformOrigin: 'left top',
     };
   }

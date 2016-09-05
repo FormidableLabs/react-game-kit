@@ -27,7 +27,7 @@ export default class Demo extends Component {
     );
 
     const leftWall = Matter.Bodies.rectangle(
-      -96, 288,
+      -64, 288,
       64, 576,
       {
         isStatic: true,
@@ -35,7 +35,7 @@ export default class Demo extends Component {
     );
 
     const rightWall = Matter.Bodies.rectangle(
-      992, 288,
+      1984, 288,
       64, 576,
       {
         isStatic: true,
