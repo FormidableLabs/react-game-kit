@@ -22,6 +22,9 @@ module.exports = {
         path.join(__dirname, 'demo'),
       ],
     }, {
+      test: /\.json$/,
+      loaders: ['json'],
+    }, {
       test: /\.css$/,
       include: [
         path.join(__dirname, 'src'),

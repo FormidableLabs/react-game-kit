@@ -31,6 +31,10 @@ export default class TileMap extends Component {
     scale: PropTypes.number,
   };
 
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.context.scale !== nextContext.scale;
+  }
+
   generateMap() {
     const { columns, layers, rows } = this.props;
 
@@ -67,7 +71,7 @@ export default class TileMap extends Component {
     const { scale } = this.context;
     const { tileSize } = this.props;
 
-    const size = Math.round(scale * tileSize);
+    const size = tileSize;
     const left = column * size;
     const top = row * size;
 

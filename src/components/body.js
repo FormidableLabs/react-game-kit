@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 
 import { World, Bodies } from 'matter-js';
 
@@ -16,7 +16,7 @@ export default class Body extends Component {
   };
 
   static contextTypes = {
-    world: PropTypes.object,
+    engine: PropTypes.object,
   };
 
   static childContextTypes = {
@@ -27,7 +27,11 @@ export default class Body extends Component {
     super(props);
 
     this.body = Bodies[props.shape](...props.args);
-    World.addBody(context.world, this.body);
+    World.addBody(context.engine.world, this.body);
+  }
+
+  componentWillUnmount() {
+    World.removeBody(this.context.engine.world, this.body);
   }
 
   getChildContext() {

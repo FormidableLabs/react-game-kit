@@ -6,53 +6,59 @@ export default class World extends Component {
 
   static propTypes = {
     children: PropTypes.any,
-    collisionCallback: PropTypes.func,
     gravity: PropTypes.array,
-    updateCallback: PropTypes.func,
+    onCollision: PropTypes.func,
+    onInit: PropTypes.func,
+    onUpdate: PropTypes.func,
   };
 
   static defaultProps = {
-    collisionCallback: () => {},
     gravity: [0, -25],
-    updateCallback: () => {},
+    onCollision: () => {},
+    onInit: () => {},
+    onUpdate: () => {},
   };
 
   static contextTypes = {
+    scale: PropTypes.number,
     loop: PropTypes.object,
   };
 
   static childContextTypes = {
-    world: PropTypes.object,
+    engine: PropTypes.object,
   };
 
   loop = () => {
-    Engine.update(this.engine, 1000 / 60, 1);
+    const currTime = 0.001 * Date.now();
+    Engine.update(this.engine, 1000 / 60, this.lastTime ? currTime / this.lastTime : 1);
+    this.lastTime = currTime;
   };
 
   constructor(props) {
     super(props);
 
     this.loopID = null;
-    this.lastTimeMilliSeconds = null;
+    this.lastTime = null;
 
     this.engine = Engine.create();
   }
 
   componentDidMount() {
     this.loopID = this.context.loop.subscribe(this.loop);
-    Events.on(this.engine, 'afterUpdate', this.props.updateCallback);
-    Events.on(this.engine, 'collisionStart', this.props.collisionCallback);
+    this.props.onInit(this.engine);
+    Events.on(this.engine, 'afterUpdate', this.props.onUpdate);
+    Events.on(this.engine, 'collisionStart', this.props.onCollision);
   }
 
   componentWillUnmount() {
     this.context.loop.unsubscribe(this.loopID);
-    Events.off(this.engine, 'afterUpdate', this.props.updateCallback);
-    Events.off(this.engine, 'collisionStart', this.props.collisionCallback);
+    Events.off(this.engine, 'afterUpdate', this.props.onUpdate);
+    Events.off(this.engine, 'collisionStart', this.props.onCollision);
   }
 
   getChildContext() {
     return {
-      world: this.engine.world,
+      engine: this.engine,
     };
   }
 

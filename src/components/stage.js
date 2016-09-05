@@ -1,21 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class Game extends Component {
+export default class Stage extends Component {
 
   static propTypes = {
     children: PropTypes.any,
     height: PropTypes.number,
     style: PropTypes.object,
     width: PropTypes.number,
-    x: PropTypes.number,
-    y: PropTypes.number,
   };
 
   static defaultProps = {
     width: 1024,
     height: 576,
-    x: 0,
-    y: 0,
   };
 
   static contextTypes = {
@@ -103,7 +99,6 @@ export default class Game extends Component {
       height: '100%',
       width: '100%',
       position: 'relative',
-      overflow: 'hidden',
     };
   }
 
@@ -115,9 +110,9 @@ export default class Game extends Component {
     return {
       height: Math.floor(scale.height),
       width: Math.floor(scale.width),
-      position: 'relative',
+      position: 'absolute',
       overflow: 'hidden',
-      transform: `translate(${this.props.x + xOffset}px, ${this.props.y + yOffset}px)`,
+      transform: `translate(${xOffset}px, ${yOffset}px)`,
     };
   }
 

@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-
 import { observer } from 'mobx-react';
+import Gamepad from 'html5-gamepad';
+import Matter from 'matter-js';
 
 import {
   Body,
   Sprite,
 } from '../src';
 
-import Matter from 'matter-js';
+const gamepad = new Gamepad();
 
 @observer
 export default class Character extends Component {
@@ -18,46 +19,77 @@ export default class Character extends Component {
   };
 
   static contextTypes = {
-    loop: PropTypes.object,
+    engine: PropTypes.object,
     scale: PropTypes.number,
   };
 
-  loop = () => {
-    const { keys } = this.props;
+  move = (body, x) => {
+    Matter.Body.setVelocity(body, { x, y: 0 });
+  };
 
-    if (keys) {
+  jump = (body) => {
+    this.isJumping = true;
+    Matter.Body.applyForce(
+      body,
+      { x: 0, y: 0 },
+      { x: 0, y: -0.15 },
+    );
+    Matter.Body.set(body, 'friction', 0);
+  }
+
+  update = () => {
+    const { keys, store } = this.props;
+    const { body } = this.body;
+
+    const shouldMoveStageLeft = body.position.x < 448 && store.stageX < 0;
+    const shouldMoveStageRight = body.position.x > 448 && store.stageX > -1024;
+
+    if (body.velocity.y === 0) {
+      this.isJumping = false;
+      Matter.Body.set(body, 'friction', 1);
+    }
+
+    if (keys && !this.isJumping) {
 
       let characterState = 2;
 
-      if (keys.isDown(keys.LEFT)) {
-        this.body.body.position.x -= 1;
+      gamepad.update();
+
+      if (keys.isDown(keys.SPACE) || gamepad.button(0, 'a')) {
+        this.jump(body);
+      }
+
+      if (keys.isDown(keys.LEFT) || gamepad.button(0, 'button 14')) {
+        if (shouldMoveStageLeft) {
+          store.setStageX(store.stageX + 5);
+        } else {
+          this.move(body, -5);
+        }
+
         characterState = 1;
-      } else if (keys.isDown(keys.RIGHT)) {
-        this.body.body.position.x += 1;
+      } else if (keys.isDown(keys.RIGHT) || gamepad.button(0, 'button 15')) {
+        if (shouldMoveStageRight) {
+          store.setStageX(store.stageX - 5);
+        } else {
+          this.move(body, 5);
+        }
+
         characterState = 0;
       }
 
-      if (keys.isDown(keys.UP)) {
-        Matter.Body.applyForce(
-          this.body.body,
-          { x: 0, y: 0 },
-          { x: 0, y: -0.025 },
-        );
-      }
-
-      this.props.store.setCharacterPosition(this.body.body.position);
+      store.setCharacterPosition(body.position);
 
       this.setState({
         characterState,
       });
     }
-
   };
 
   constructor(props) {
     super(props);
 
     this.loopID = null;
+    this.isJumping = false;
 
     this.state = {
       characterState: 2,
@@ -65,11 +97,11 @@ export default class Character extends Component {
   }
 
   componentDidMount() {
-    this.loopID = this.context.loop.subscribe(this.loop);
+    Matter.Events.on(this.context.engine, 'afterUpdate', this.update);
   }
 
   componentWillUnmount() {
-    this.context.loop.unsubscribe(this.loopID);
+    Matter.Events.off(this.context.engine, 'afterUpdate', this.update);
   }
 
   getWrapperStyles() {
@@ -88,7 +120,7 @@ export default class Character extends Component {
     return (
       <div style={this.getWrapperStyles()}>
         <Body args={[
-          0, 400, 64, 64, { inertia: Infinity }]
+          0, 384, 64, 64, { inertia: Infinity, restitution: 0, friction: 1, frictionStatic: 0 }]
           }
           ref={(b) => { this.body = b; }}
         >
