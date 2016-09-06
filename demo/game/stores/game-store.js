@@ -12,8 +12,8 @@ class GameStore {
   setStageX(x) {
     if (x > 0) {
       this.stageX = 0;
-    } else if (x < -1024) {
-      this.stageX = -1024;
+    } else if (x < -2048) {
+      this.stageX = -2048;
     } else {
       this.stageX = x;
     }

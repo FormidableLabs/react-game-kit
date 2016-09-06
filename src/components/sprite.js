@@ -9,6 +9,7 @@ export default class Sprite extends Component {
     src: PropTypes.string,
     state: PropTypes.number,
     states: PropTypes.array,
+    style: PropTypes.object,
     ticksPerFrame: PropTypes.number,
     tileHeight: PropTypes.number,
     tileWidth: PropTypes.number,
@@ -38,22 +39,12 @@ export default class Sprite extends Component {
 
     this.state = {
       currentStep: 0,
-      src: null,
     };
   }
 
   componentDidMount() {
-    const image = new Image();
-    image.onload = () => {
-      this.setState({
-        src: this.props.src,
-      });
-
-      const animate = this.animate.bind(this, this.props);
-      this.loopID = this.context.loop.subscribe(animate);
-    };
-
-    image.src = this.props.src;
+    const animate = this.animate.bind(this, this.props);
+    this.loopID = this.context.loop.subscribe(animate);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -105,7 +96,6 @@ export default class Sprite extends Component {
     return {
       position: 'absolute',
       transform: `translate(-${left}px, -${top}px)`,
-      visibility: this.state.src ? 'visible' : 'hidden',
     };
   }
 
@@ -123,10 +113,10 @@ export default class Sprite extends Component {
 
   render() {
     return (
-      <div style={this.getWrapperStyles()}>
+      <div style={{ ...this.getWrapperStyles(), ...this.props.style }}>
         <img
           style={this.getImageStyles()}
-          src={this.state.src}
+          src={this.props.src}
         />
       </div>
     );

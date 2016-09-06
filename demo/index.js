@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Demo from './demo';
+import Presentation from './presentation';
 
 ReactDOM.render(
-  <Demo />,
+  <Presentation />,
   document.getElementById('root')
 );

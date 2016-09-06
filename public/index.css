@@ -1,0 +1,55 @@
+@font-face {
+  font-family: '8BIT WONDER';
+  src: url('assets/8BITWONDERNominal.eot');
+  src: url('assets/8BITWONDERNominal.eot?#iefix') format('embedded-opentype'),
+    url('assets/8BITWONDERNominal.woff') format('woff'),
+    url('assets/8BITWONDERNominal.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body, #root {
+  background: black;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.intro {
+  margin: auto;
+  width: 100%;
+  max-width: 1024px;
+  display: block;
+}
+
+.start {
+  font-family: '8BIT WONDER';
+  display: block;
+  width: 400px;
+  font-size: 24px;
+  margin: -1% auto 0px;
+  text-align: center;
+  color: white;
+}
+
+.fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: black;
+  -webkit-transition: 1s opacity linear;
+  transition: 1s opacity linear;
+  opacity: 0;
+}
+
+.fade.active {
+ opacity: 1;
+}
+
+* {
+  box-sizing: border-box;
+}

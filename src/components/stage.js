@@ -59,10 +59,7 @@ export default class Stage extends Component {
   }
 
   getScale() {
-    const { container } = this;
-    const { dimensions } = this.state;
-
-    const [vwidth, vheight] = dimensions;
+    const [vwidth, vheight] = this.state.dimensions;
     const { height, width } = this.props;
 
     let targetWidth;
@@ -79,7 +76,7 @@ export default class Stage extends Component {
       targetScale = vwidth / width;
     }
 
-    if (!container) {
+    if (!this.container) {
       return {
         height,
         width,
@@ -119,7 +116,7 @@ export default class Stage extends Component {
   render() {
     return (
       <div style={this.getWrapperStyles()} ref={(c) => { this.container = c; }}>
-        <div style={this.getInnerStyles()}>
+        <div style={{ ...this.getInnerStyles(), ...this.props.style }}>
           {this.props.children}
         </div>
       </div>

@@ -6,7 +6,7 @@ import Matter from 'matter-js';
 import {
   Body,
   Sprite,
-} from '../src';
+} from '../../src';
 
 const gamepad = new Gamepad();
 
@@ -15,6 +15,7 @@ export default class Character extends Component {
 
   static propTypes = {
     keys: PropTypes.object,
+    onEnterBuilding: PropTypes.func,
     store: PropTypes.object,
   };
 
@@ -35,7 +36,26 @@ export default class Character extends Component {
       { x: 0, y: -0.15 },
     );
     Matter.Body.set(body, 'friction', 0);
-  }
+  };
+
+  enterBuilding = (body) => {
+    let doorIndex = null;
+
+    const doorPositions = [...Array(6).keys()].map((a) => {
+      return [(512 * a) + 224, (512 * a) + 288];
+    });
+
+    doorPositions.forEach((dp, di) => {
+      if (body.position.x + 64 > dp[0] && body.position.x + 64 < dp[1]) {
+        doorIndex = di;
+      }
+    });
+
+    if (doorIndex !== null) {
+      Matter.Events.off(this.context.engine, 'afterUpdate', this.update);
+      this.props.onEnterBuilding(doorIndex);
+    }
+  };
 
   update = () => {
     const { keys, store } = this.props;
@@ -44,14 +64,14 @@ export default class Character extends Component {
     const midPoint = Math.abs(store.stageX) + 448;
 
     const shouldMoveStageLeft = body.position.x < midPoint && store.stageX < 0;
-    const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -1024;
+    const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -2048;
 
-    if (body.velocity.y === 0) {
+    if (body.velocity.y === 0 || body.velocity.y < -100) {
       this.isJumping = false;
       Matter.Body.set(body, 'friction', 1);
     }
 
-    if (keys && !this.isJumping) {
+    if (!this.isJumping) {
 
       let characterState = 2;
 
@@ -59,6 +79,10 @@ export default class Character extends Component {
 
       if (keys.isDown(keys.SPACE) || gamepad.button(0, 'a')) {
         this.jump(body);
+      }
+
+      if (keys.isDown(keys.UP) || gamepad.button(0, 'button 12')) {
+        this.enterBuilding(body);
       }
 
       if (keys.isDown(keys.LEFT) || gamepad.button(0, 'button 14')) {
@@ -128,10 +152,12 @@ export default class Character extends Component {
   }
 
   render() {
+    const x = this.props.store.characterPosition.x;
+
     return (
       <div style={this.getWrapperStyles()}>
         <Body args={[
-          0, 384, 64, 64, { inertia: Infinity, restitution: 0, friction: 1, frictionStatic: 0 }]
+          x, 384, 64, 64, { inertia: Infinity, restitution: 0, friction: 1, frictionStatic: 0 }]
           }
           ref={(b) => { this.body = b; }}
         >

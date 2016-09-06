@@ -10,6 +10,7 @@ export default class TileMap extends Component {
     rows: PropTypes.number,
     scale: PropTypes.number,
     src: PropTypes.string,
+    style: PropTypes.object,
     tileSize: PropTypes.number,
   };
 
@@ -68,7 +69,6 @@ export default class TileMap extends Component {
   }
 
   getTileData(row, column, index) {
-    const { scale } = this.context;
     const { tileSize } = this.props;
 
     const size = tileSize;
@@ -135,7 +135,7 @@ export default class TileMap extends Component {
   render() {
     const layers = this.generateMap();
     return (
-      <div style={this.getWrapperStyles()}>
+      <div style={{ ...this.getWrapperStyles(), ...this.props.style }}>
         { layers.map((layer, index) => {
           return (
             <div key={`layer-${index}`} style={this.getLayerStyles()}>

@@ -31,7 +31,7 @@ export default class Body extends Component {
   }
 
   componentWillUnmount() {
-    World.removeBody(this.context.engine.world, this.body);
+    World.remove(this.context.engine.world, this.body);
   }
 
   getChildContext() {
