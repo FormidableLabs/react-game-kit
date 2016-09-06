@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Matter from 'matter-js';
 
 import {
+  AudioPlayer,
   Loop,
   Stage,
   KeyListener,
@@ -15,6 +16,10 @@ import Fade from './fade';
 import GameStore from './stores/game-store';
 
 export default class Game extends Component {
+
+  static propTypes = {
+    onLeave: PropTypes.func,
+  };
 
   physicsInit = (engine) => {
     const ground = Matter.Bodies.rectangle(
@@ -50,6 +55,9 @@ export default class Game extends Component {
     this.setState({
       fade: true,
     });
+    setTimeout(() => {
+      this.props.onLeave();
+    }, 500);
   }
 
   constructor(props) {
@@ -59,9 +67,15 @@ export default class Game extends Component {
       fade: true,
     };
     this.keyListener = new KeyListener();
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    window.context = new AudioContext();
   }
 
   componentDidMount() {
+    this.player = new AudioPlayer('/assets/music.wav', () => {
+      this.stopMusic = this.player.play({ loop: true, offset: 1, volume: 0.35 });
+    });
+
     this.setState({
       fade: false,
     });
@@ -75,6 +89,7 @@ export default class Game extends Component {
   }
 
   componentWillUnmount() {
+    this.stopMusic();
     this.keyListener.unsubscribe();
   }
 

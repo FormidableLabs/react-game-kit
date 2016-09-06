@@ -41,7 +41,7 @@ html, body, #root {
   bottom: 0;
   right: 0;
   background: black;
-  -webkit-transition: 1s opacity linear;
+  -webkit-transition: 500ms opacity linear;
   transition: 1s opacity linear;
   opacity: 0;
 }

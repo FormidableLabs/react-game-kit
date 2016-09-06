@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-
 import Gamepad from 'html5-gamepad';
+
+import { AudioPlayer } from '../src';
 
 const gamepad = new Gamepad();
 
@@ -12,6 +13,7 @@ export default class Intro extends Component {
   startUpdate = () => {
     gamepad.update();
     if (gamepad.button(0, 'left stick')) {
+      this.startNoise.play();
       this.props.onStart();
       return;
     }
@@ -20,6 +22,7 @@ export default class Intro extends Component {
 
   handleKeyPress = (e) => {
     if (e.keyCode === 13) {
+      this.startNoise.play();
       this.props.onStart();
     }
   }
@@ -33,6 +36,7 @@ export default class Intro extends Component {
   }
 
   componentDidMount() {
+    this.startNoise = new AudioPlayer('/assets/start.wav');
     window.addEventListener('keypress', this.handleKeyPress);
     this.animationFrame = requestAnimationFrame(this.startUpdate);
     this.interval = setInterval(() => {

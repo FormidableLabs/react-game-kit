@@ -4,7 +4,9 @@ export default class Sprite extends Component {
 
   static propTypes = {
     animating: PropTypes.bool,
+    loop: PropTypes.bool,
     offset: PropTypes.array,
+    onPlayStateChanged: PropTypes.func,
     scale: PropTypes.number,
     src: PropTypes.string,
     state: PropTypes.number,
@@ -17,7 +19,9 @@ export default class Sprite extends Component {
 
   static defaultProps = {
     animating: false,
+    loop: true,
     offset: [0, 0],
+    onPlayStateChanged: () => {},
     src: '',
     state: 0,
     states: [],
@@ -36,6 +40,7 @@ export default class Sprite extends Component {
 
     this.loopID = null;
     this.tickCount = 0;
+    this.finished = false;
 
     this.state = {
       currentStep: 0,
@@ -43,12 +48,15 @@ export default class Sprite extends Component {
   }
 
   componentDidMount() {
+    this.props.onPlayStateChanged(1);
     const animate = this.animate.bind(this, this.props);
     this.loopID = this.context.loop.subscribe(animate);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.state !== this.props.state) {
+      this.finished = false;
+      this.props.onPlayStateChanged(1);
       this.context.loop.unsubscribe(this.loopID);
       this.tickCount = 0;
 
@@ -66,9 +74,9 @@ export default class Sprite extends Component {
   }
 
   animate(props) {
-    const { ticksPerFrame, state, states } = props;
+    const { loop, ticksPerFrame, state, states } = props;
 
-    if (this.tickCount === ticksPerFrame) {
+    if (this.tickCount === ticksPerFrame && !this.finished) {
       if (states[state] !== 0) {
         const { currentStep } = this.state;
         const lastStep = states[state];
@@ -77,6 +85,11 @@ export default class Sprite extends Component {
         this.setState({
           currentStep: nextStep,
         });
+
+        if (currentStep === lastStep && loop === false) {
+          this.finished = true;
+          this.props.onPlayStateChanged(0);
+        }
       }
 
       this.tickCount = 0;
