@@ -3,14 +3,13 @@ import React, { Component, PropTypes } from 'react';
 export default class Sprite extends Component {
 
   static propTypes = {
-    animating: PropTypes.bool,
-    loop: PropTypes.bool,
     offset: PropTypes.array,
     onPlayStateChanged: PropTypes.func,
+    repeat: PropTypes.bool,
     scale: PropTypes.number,
     src: PropTypes.string,
     state: PropTypes.number,
-    states: PropTypes.array,
+    steps: PropTypes.array,
     style: PropTypes.object,
     ticksPerFrame: PropTypes.number,
     tileHeight: PropTypes.number,
@@ -18,13 +17,12 @@ export default class Sprite extends Component {
   };
 
   static defaultProps = {
-    animating: false,
-    loop: true,
     offset: [0, 0],
     onPlayStateChanged: () => {},
+    repeat: true,
     src: '',
     state: 0,
-    states: [],
+    steps: [],
     ticksPerFrame: 4,
     tileHeight: 64,
     tileWidth: 64,
@@ -74,19 +72,19 @@ export default class Sprite extends Component {
   }
 
   animate(props) {
-    const { loop, ticksPerFrame, state, states } = props;
+    const { repeat, ticksPerFrame, state, steps } = props;
 
     if (this.tickCount === ticksPerFrame && !this.finished) {
-      if (states[state] !== 0) {
+      if (steps[state] !== 0) {
         const { currentStep } = this.state;
-        const lastStep = states[state];
+        const lastStep = steps[state];
         const nextStep = currentStep === lastStep ? 0 : currentStep + 1;
 
         this.setState({
           currentStep: nextStep,
         });
 
-        if (currentStep === lastStep && loop === false) {
+        if (currentStep === lastStep && repeat === false) {
           this.finished = true;
           this.props.onPlayStateChanged(0);
         }

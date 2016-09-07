@@ -43,18 +43,18 @@ export default class Character extends Component {
       { x: 0, y: 0 },
       { x: 0, y: -0.15 },
     );
-    Matter.Body.set(body, 'friction', 0);
+    Matter.Body.set(body, 'friction', 0.0001);
   };
 
   punch = () => {
     this.isPunching = true;
     this.setState({
       characterState: 4,
-      loop: false,
+      repeat: false,
     });
   }
 
-  enterBuilding = (body) => {
+  getDoorIndex = (body) => {
     let doorIndex = null;
 
     const doorPositions = [...Array(6).keys()].map((a) => {
@@ -67,6 +67,12 @@ export default class Character extends Component {
       }
     });
 
+    return doorIndex;
+  }
+
+  enterBuilding = (body) => {
+    const doorIndex = this.getDoorIndex(body);
+
     if (doorIndex !== null) {
       this.setState({
         characterState: 3,
@@ -76,14 +82,9 @@ export default class Character extends Component {
     }
   };
 
-  checkKeys = () => {
+  checkKeys = (shouldMoveStageLeft, shouldMoveStageRight) => {
     const { keys, store } = this.props;
     const { body } = this.body;
-
-    const midPoint = Math.abs(store.stageX) + 448;
-
-    const shouldMoveStageLeft = body.position.x < midPoint && store.stageX < 0;
-    const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -2048;
 
     let characterState = 2;
 
@@ -105,7 +106,6 @@ export default class Character extends Component {
       }
 
       this.move(body, -5);
-
       characterState = 1;
     } else if (keys.isDown(keys.RIGHT) || gamepad.button(0, 'button 15')) {
       if (shouldMoveStageRight) {
@@ -113,13 +113,12 @@ export default class Character extends Component {
       }
 
       this.move(body, 5);
-
       characterState = 0;
     }
 
     this.setState({
       characterState,
-      loop: characterState < 2,
+      repeat: characterState < 2,
     });
   }
 
@@ -132,15 +131,17 @@ export default class Character extends Component {
     const shouldMoveStageLeft = body.position.x < midPoint && store.stageX < 0;
     const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -2048;
 
-    if (body.velocity.y === 0 || body.velocity.y < -100) {
+    const velY = parseFloat(body.velocity.y.toFixed(10));
+
+    if (velY === 0) {
       this.isJumping = false;
-      Matter.Body.set(body, 'friction', 1);
+      Matter.Body.set(body, 'friction', 0.9999);
     }
 
     if (!this.isJumping && !this.isPunching && !this.isLeaving) {
       gamepad.update();
 
-      this.checkKeys();
+      this.checkKeys(shouldMoveStageLeft, shouldMoveStageRight);
 
       store.setCharacterPosition(body.position);
     } else {
@@ -206,13 +207,12 @@ export default class Character extends Component {
           ref={(b) => { this.body = b; }}
         >
           <Sprite
-            animating
-            loop={this.state.loop}
+            repeat={this.state.repeat}
             onPlayStateChanged={this.handlePlayStateChanged}
             src="assets/character-sprite.png"
             scale={this.context.scale * 2}
             state={this.state.characterState}
-            states={[9, 9, 0, 4, 5]}
+            steps={[9, 9, 0, 4, 5]}
           />
         </Body>
       </div>
