@@ -4,14 +4,15 @@ const slideStyles = {
   display: 'flex',
   flex: '1 1 0',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   maxWidth: '166vh',
-  background: 'red',
 };
 
 const Slide = (props) => (
   <div style={slideStyles}>
-    {props.children}
+    <div>
+      {props.children}
+    </div>
   </div>
 );
 

@@ -2,8 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import Gamepad from 'html5-gamepad';
 
 import Basics from './basics';
+import Loop from './loop';
+import Scaling from './scaling';
+import Sprites from './sprites';
+import TileMaps from './tilemaps';
+import Physics from './physics';
 
-const slides = [Basics];
+const slides = [Basics, Loop, Scaling, Sprites, TileMaps, Physics];
 
 const gamepad = new Gamepad();
 
@@ -28,12 +33,12 @@ export default class Slides extends Component {
     }
 
     if (gamepad.button(0, 'button 14')) {
-      this.handlePrev();
+      this.handlePrev(true);
       return;
     }
 
     if (gamepad.button(0, 'button 15')) {
-      this.handleNext();
+      this.handleNext(true);
       return;
     }
 
@@ -54,7 +59,7 @@ export default class Slides extends Component {
     }
   }
 
-  handleNext() {
+  handleNext(restartLoop) {
     const { currentSlide } = this.state;
     const { index } = this.props;
 
@@ -64,20 +69,28 @@ export default class Slides extends Component {
       this.setState({
         currentSlide: currentSlide + 1,
       }, () => {
-        this.restartLoop();
+        if (restartLoop) {
+          this.restartLoop();
+        }
       });
     }
   }
 
-  handlePrev() {
+  handlePrev(restartLoop) {
     const { currentSlide } = this.state;
 
     if (currentSlide !== 0) {
       this.setState({
         currentSlide: currentSlide - 1,
       }, () => {
-        this.restartLoop();
+        if (restartLoop) {
+          this.restartLoop();
+        }
       });
+    } else {
+      if (restartLoop) {
+        this.restartLoop();
+      }
     }
   }
 
