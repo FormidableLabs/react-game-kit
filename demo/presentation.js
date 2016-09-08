@@ -18,9 +18,10 @@ export default class Presentation extends Component {
     });
   };
 
-  handleLeave = () => {
+  handleLeave = (index) => {
     this.setState({
       mode: 3,
+      slideIndex: index,
     });
   };
 
@@ -29,6 +30,7 @@ export default class Presentation extends Component {
 
     this.state = {
       mode: 0,
+      slideIndex: 0,
     };
   }
   render() {
@@ -43,7 +45,7 @@ export default class Presentation extends Component {
       break;
     }
     case 3: {
-      componentToRender = <Slides onDone={this.handleDone} />;
+      componentToRender = <Slides onDone={this.handleDone} index={this.state.slideIndex} />;
       break;
     }
     }

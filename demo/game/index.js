@@ -51,12 +51,12 @@ export default class Game extends Component {
     Matter.World.addBody(engine.world, rightWall);
   }
 
-  handleEnterBuilding = () => {
+  handleEnterBuilding = (index) => {
     this.setState({
       fade: true,
     });
     setTimeout(() => {
-      this.props.onLeave();
+      this.props.onLeave(index);
     }, 500);
   }
 
@@ -68,7 +68,7 @@ export default class Game extends Component {
     };
     this.keyListener = new KeyListener();
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    window.context = new AudioContext();
+    window.context = window.context || new AudioContext();
   }
 
   componentDidMount() {

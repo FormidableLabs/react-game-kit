@@ -1,15 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import Gamepad from 'html5-gamepad';
 
-import Slide from './slide';
+import Basics from './basics';
+
+const slides = [Basics];
 
 const gamepad = new Gamepad();
 
 export default class Slides extends Component {
 
   static propTypes = {
+    index: PropTypes.number,
     onDone: PropTypes.func,
   };
+
+  restartLoop = () => {
+    setTimeout(() => {
+      this.startUpdate();
+    }, 300);
+  }
 
   startUpdate = () => {
     gamepad.update();
@@ -17,6 +26,17 @@ export default class Slides extends Component {
       this.props.onDone();
       return;
     }
+
+    if (gamepad.button(0, 'button 14')) {
+      this.handlePrev();
+      return;
+    }
+
+    if (gamepad.button(0, 'button 15')) {
+      this.handleNext();
+      return;
+    }
+
     this.animationFrame = requestAnimationFrame(this.startUpdate);
   }
 
@@ -24,10 +44,49 @@ export default class Slides extends Component {
     if (e.keyCode === 27) {
       this.props.onDone();
     }
+
+    if (e.keyCode === 37) {
+      this.handlePrev();
+    }
+
+    if (e.keyCode === 39) {
+      this.handleNext();
+    }
+  }
+
+  handleNext() {
+    const { currentSlide } = this.state;
+    const { index } = this.props;
+
+    if (currentSlide + 1 === slides[index].slides.length) {
+      this.props.onDone();
+    } else {
+      this.setState({
+        currentSlide: currentSlide + 1,
+      }, () => {
+        this.restartLoop();
+      });
+    }
+  }
+
+  handlePrev() {
+    const { currentSlide } = this.state;
+
+    if (currentSlide !== 0) {
+      this.setState({
+        currentSlide: currentSlide - 1,
+      }, () => {
+        this.restartLoop();
+      });
+    }
   }
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentSlide: 0,
+    };
   }
 
   componentDidMount() {
@@ -37,6 +96,7 @@ export default class Slides extends Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyPress);
     window.removeEventListener('keypress', this.handleKeyPress);
     cancelAnimationFrame(this.animationFrame);
   }
@@ -54,7 +114,7 @@ export default class Slides extends Component {
   render() {
     return (
       <div style={this.getWrapperStyles()}>
-        <Slide>test</Slide>
+        {slides[this.props.index].slides[this.state.currentSlide]}
       </div>
     );
   }
