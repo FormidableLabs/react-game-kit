@@ -58,7 +58,7 @@ export default class Character extends Component {
     let doorIndex = null;
 
     const doorPositions = [...Array(6).keys()].map((a) => {
-      return [(512 * a) + 224, (512 * a) + 288];
+      return [(512 * a) + 208, (512 * a) + 272];
     });
 
     doorPositions.forEach((dp, di) => {

@@ -1,0 +1,9 @@
+getWrapperStyles() {
+  const x = Math.round(this.state.x * this.context.scale);
+
+  return {
+    position: 'absolute',
+    transform: `translate(${x}px, 0px) translateZ(0)`,
+    transformOrigin: 'top left',
+  };
+}

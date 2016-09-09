@@ -8,19 +8,19 @@ export default class Presentation extends Component {
 
   handleStart = () => {
     this.setState({
-      mode: 1,
+      gameState: 1,
     });
   };
 
   handleDone = () => {
     this.setState({
-      mode: 1,
+      gameState: 1,
     });
   };
 
   handleLeave = (index) => {
     this.setState({
-      mode: 3,
+      gameState: 2,
       slideIndex: index,
     });
   };
@@ -29,26 +29,16 @@ export default class Presentation extends Component {
     super(props);
 
     this.state = {
-      mode: 0,
+      gameState: 0,
       slideIndex: 0,
     };
   }
   render() {
-    let componentToRender;
-    switch (this.state.mode) {
-    case 0: {
-      componentToRender = <Intro onStart={this.handleStart} />;
-      break;
-    }
-    case 1: {
-      componentToRender = <Game onLeave={this.handleLeave} />;
-      break;
-    }
-    case 3: {
-      componentToRender = <Slides onDone={this.handleDone} index={this.state.slideIndex} />;
-      break;
-    }
-    }
-    return componentToRender;
+    this.gameStates = [
+      <Intro onStart={this.handleStart} />,
+      <Game onLeave={this.handleLeave} />,
+      <Slides onDone={this.handleDone} index={this.state.slideIndex} />,
+    ];
+    return this.gameStates[this.state.gameState];
   }
 }

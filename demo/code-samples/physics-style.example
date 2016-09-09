@@ -1,0 +1,17 @@
+import { observer } from 'mobx-react';
+
+@observer
+class Enemy extends Component {
+  getStyle() {
+    const {x, y} = store.characterPosition;
+
+    return {
+      position: 'absolute',
+      transform: `translate(-${x}px, -${y}px)`,
+    }
+  }
+
+  render() {
+    return <div style={this.getStyle()} />
+  }
+}

@@ -1,0 +1,9 @@
+// Update loop
+const update = () => {
+  if (rightKeyPressed) {
+    character.x += 1;
+  }
+  if (leftKeyPressed) {
+    character.x -= 1;
+  }
+};

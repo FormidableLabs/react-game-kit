@@ -1,0 +1,11 @@
+class Game extends Component {
+  render() {
+    return (
+      <Loop>
+        <Stage width={1024} height={576}>
+          // Child components get this.context.scale
+        </Stage>
+      </Loop>
+    )
+  }
+}

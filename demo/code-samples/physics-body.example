@@ -1,0 +1,13 @@
+class WorldChild extends Component {
+  //...
+  render() {
+    return (
+      <Body
+        args={[0, 384, 64, 64, { inertia: Infinity }]}
+        ref={(b) => { this.body = b; }}
+      >
+        <MySprite/>
+      </Body>
+    );
+  }
+}

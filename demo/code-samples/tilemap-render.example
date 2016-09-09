@@ -1,0 +1,12 @@
+getTileStyles(column, row, size) {
+  const left = column * size;
+  const top = row * size;
+
+  return {
+    height: size,
+    width: size,
+    overflow: 'hidden',
+    position: 'absolute',
+    transform: `translate(${left}px, ${top}px)`,
+  };
+}

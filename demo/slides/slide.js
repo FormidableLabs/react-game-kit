@@ -6,11 +6,12 @@ const slideStyles = {
   alignItems: 'center',
   justifyContent: 'flex-start',
   maxWidth: '166vh',
+  padding: 20,
 };
 
 const Slide = (props) => (
   <div style={slideStyles}>
-    <div>
+    <div style={{ width: '100%' }}>
       {props.children}
     </div>
   </div>

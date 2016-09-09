@@ -16,7 +16,15 @@ html, body, #root {
   padding: 0;
   color: white;
   font-family: 'Helvetica Neue';
-  font-size: 1.5em;
+  font-size: 3vw;
+}
+
+.yellow {
+  color: #f1c40f;
+}
+
+del {
+  color: #e74c3c;
 }
 
 p {
@@ -27,6 +35,12 @@ p {
 li {
   font-size: 1.3em;
   line-height: 1.5;
+}
+
+pre {
+  font-size: 1.5vw;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .intro {

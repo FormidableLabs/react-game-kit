@@ -1,0 +1,9 @@
+class Game extends Component {
+  render() {
+    return (
+      <Loop>
+        // Child components get this.context.loop
+      </Loop>
+    )
+  }
+}

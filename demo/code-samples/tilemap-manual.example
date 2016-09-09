@@ -1,0 +1,15 @@
+layers.forEach((l, index) => {
+  const layer = [];
+  for (let r = 0; r < rows; r++) { // Loop over rows
+    for (let c = 0; c < columns; c++) { // Loop over columns
+      const gridIndex = (r * columns) + c; // Get index in grid
+      if (layer[gridIndex] !== 0) { // If it isn't 0
+        layer.push({
+          row: r,
+          column: c,
+          tileIndex: layer[gridIndex]
+        })
+      }
+    }
+  }
+}

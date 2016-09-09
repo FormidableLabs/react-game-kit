@@ -1,0 +1,17 @@
+<TileMap
+  src="atlas.png"
+  columns={4}
+  rows={2}
+  renderTile={(tile, src, styles) => {
+    if (tile.index === 2) {
+      return <Body><img style={styles} src={src} /></Body>;
+    }
+    return <img style={styles} src={src} />;
+  )}
+  layers={[
+    [
+      0, 0, 2, 0,
+      2, 0, 1, 1,
+    ]
+  ]}
+/>

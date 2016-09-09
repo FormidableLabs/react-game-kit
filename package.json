@@ -8,7 +8,7 @@
     "umd"
   ],
   "scripts": {
-    "start": "webpack-dev-server --inline --port 3000 --config webpack.config.dev.js --content-base public/",
+    "start": "webpack-dev-server --hot --inline --port 3000 --config webpack.config.dev.js --content-base demo/",
     "build": "babel src -d lib --copy-files",
     "clean": "rimraf dist",
     "clean-umd": "rimraf umd",
@@ -31,7 +31,6 @@
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
-    "html5-gamepad": "^0.1.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -47,11 +46,14 @@
     "eslint-plugin-jsx-a11y": "^2.1.0",
     "eslint-plugin-react": "^6.1.2",
     "flow-bin": "^0.31.1",
+    "html5-gamepad": "^0.1.4",
     "mobx": "^2.5.0",
     "mobx-react": "^3.5.5",
     "postcss-loader": "^0.10.1",
+    "raw-loader": "^0.5.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
+    "react-hot-loader": "^3.0.0-beta.2",
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",

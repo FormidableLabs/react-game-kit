@@ -1,0 +1,15 @@
+class WorldChild extends Component {
+  move = (body, x) => {
+    Matter.Body.setVelocity(body, { x, y: 0 });
+  };
+
+  update = () => {
+    const { body } = this.body;
+    if (keys.isDown(keys.LEFT)) {
+      this.move(body, -5);
+    } else if (keys.isDown(keys.RIGHT)) {
+      this.move(body, 5);
+    }
+  };
+  //...
+}

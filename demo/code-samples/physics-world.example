@@ -1,0 +1,13 @@
+class Game extends Component {
+  render() {
+    return (
+      <Loop>
+        <Stage width={1024} height={576}>
+          <World>
+            // Children get this.context.engine
+          </World>
+        </Stage>
+      </Loop>
+    )
+  }
+}

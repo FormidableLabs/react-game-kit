@@ -1,0 +1,17 @@
+class Example extends Component {
+  static contextTypes = {
+    loop: PropTypes.object,
+  };
+
+  loop = () => {
+    //Do stuff here
+  };
+
+  componentDidMount() {
+    this.loopID = this.context.loop.subscribe(this.loop);
+  }
+
+  componentWillUnmount() {
+    this.context.loop.unsubscribe(this.loopID);
+  }
+}

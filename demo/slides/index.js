@@ -23,7 +23,13 @@ export default class Slides extends Component {
     setTimeout(() => {
       this.startUpdate();
     }, 300);
-  }
+  };
+
+  highlight = () => {
+    if (window.Prism) {
+      window.Prism.highlightAll();
+    }
+  };
 
   startUpdate = () => {
     gamepad.update();
@@ -43,7 +49,7 @@ export default class Slides extends Component {
     }
 
     this.animationFrame = requestAnimationFrame(this.startUpdate);
-  }
+  };
 
   handleKeyPress = (e) => {
     if (e.keyCode === 27) {
@@ -57,7 +63,7 @@ export default class Slides extends Component {
     if (e.keyCode === 39) {
       this.handleNext();
     }
-  }
+  };
 
   handleNext(restartLoop) {
     const { currentSlide } = this.state;
@@ -87,10 +93,8 @@ export default class Slides extends Component {
           this.restartLoop();
         }
       });
-    } else {
-      if (restartLoop) {
-        this.restartLoop();
-      }
+    } else if (restartLoop) {
+      this.restartLoop();
     }
   }
 
@@ -103,6 +107,7 @@ export default class Slides extends Component {
   }
 
   componentDidMount() {
+    this.highlight();
     window.addEventListener('keyup', this.handleKeyPress);
     window.addEventListener('keypress', this.handleKeyPress);
     this.animationFrame = requestAnimationFrame(this.startUpdate);
@@ -112,6 +117,10 @@ export default class Slides extends Component {
     window.removeEventListener('keyup', this.handleKeyPress);
     window.removeEventListener('keypress', this.handleKeyPress);
     cancelAnimationFrame(this.animationFrame);
+  }
+
+  componentDidUpdate() {
+    this.highlight();
   }
 
   getWrapperStyles() {
