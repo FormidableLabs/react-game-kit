@@ -201,9 +201,8 @@ export default class Character extends Component {
 
     return (
       <div style={this.getWrapperStyles()}>
-        <Body args={[
-          x, 384, 64, 64, { inertia: Infinity, restitution: 0, friction: 1, frictionStatic: 0 }]
-          }
+        <Body
+          args={[x, 384, 64, 64]}
           ref={(b) => { this.body = b; }}
         >
           <Sprite
