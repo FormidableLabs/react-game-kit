@@ -203,6 +203,7 @@ export default class Character extends Component {
       <div style={this.getWrapperStyles()}>
         <Body
           args={[x, 384, 64, 64]}
+          inertia={Infinity}
           ref={(b) => { this.body = b; }}
         >
           <Sprite

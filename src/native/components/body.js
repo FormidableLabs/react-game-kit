@@ -61,7 +61,6 @@ export default class Body extends Component {
 
   static defaultProps = {
     args: [0, 0, 100, 100],
-    inertia: Infinity,
     restitution: 0,
     friction: 1,
     frictionStatic: 0,

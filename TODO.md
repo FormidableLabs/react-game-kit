@@ -1,5 +1,0 @@
-- Make character bigger
-- Camera moving
-- store layer
-- Make slide primitives
-- Game controller controls

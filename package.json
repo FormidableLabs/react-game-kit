@@ -4,6 +4,7 @@
   "description": "Make games with react",
   "main": "lib",
   "files": [
+    "native.js",
     "lib",
     "umd"
   ],
@@ -23,10 +24,6 @@
   "repository": "https://github.com/FormidableLabs/react-game-kit",
   "dependencies": {
     "matter-js": "^0.10.0"
-  },
-  "peerDependencies": {
-    "react": "^15.2.1",
-    "react-dom": "^15.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import { View } from 'react-native';
 
-import { Engine, Events } from 'matter-js';
+import Matter, { Engine, Events } from 'matter-js';
 
 export default class World extends Component {
 
@@ -19,7 +19,11 @@ export default class World extends Component {
   };
 
   static defaultProps = {
-    gravity: [0, -25],
+    gravity: {
+      x: 0,
+      y: 1,
+      scale: 0.001,
+    },
     onCollision: () => {},
     onInit: () => {},
     onUpdate: () => {},
