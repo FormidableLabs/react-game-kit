@@ -42,7 +42,7 @@ render() {
 }
 ```
 
-The `Loop` component uses `context` to pass a subscribe game tick down your component tree. The `Stage` component does the same with game scale.
+The `Loop` component uses `context` to pass a subscribable game tick down your component tree. The `Stage` component does the same with game scale.
 
 ### World
 
