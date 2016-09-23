@@ -22,6 +22,6 @@ export default class GameLoop {
     return this.subscribers.push(callback);
   }
   unsubscribe(id) {
-    this.subscribers.splice(this.subscribers.indexOf(id), 1);
+    delete this.subscribers[id - 1];
   }
 }
