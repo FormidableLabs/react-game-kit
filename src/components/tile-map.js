@@ -4,10 +4,8 @@ import React, { Component, PropTypes } from 'react';
 export default class TileMap extends Component {
 
   static propTypes = {
-    columns: PropTypes.number,
     layers: PropTypes.array,
     renderTile: PropTypes.func,
-    rows: PropTypes.number,
     scale: PropTypes.number,
     src: PropTypes.string,
     style: PropTypes.object,
@@ -15,15 +13,25 @@ export default class TileMap extends Component {
   };
 
   static defaultProps = {
-    columns: 16,
-    layers: [],
+    layers: [
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+    ],
     renderTile: (tile, src, styles) => (
       <img
         style={styles}
         src={src}
       />
     ),
-    rows: 9,
     src: '',
     tileSize: 64,
   };
@@ -37,32 +45,31 @@ export default class TileMap extends Component {
   }
 
   generateMap() {
-    const { columns, layers, rows } = this.props;
+    const { layers } = this.props;
 
     const mappedLayers = [];
 
-    layers.forEach((l, index) => {
-      const layer = [];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns; c++) {
-          const gridIndex = (r * columns) + c;
-          if (l[gridIndex] !== 0) {
-            layer.push(
+    layers.forEach((layer, layerIndex) => {
+      const mappedLayer = [];
+      layer.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+          if (column !== 0) {
+            mappedLayer.push(
               <div
-                key={`tile-${index}-${r}-${c}`}
-                style={this.getImageWrapperStyles(r, c)}
+                key={`tile-${layerIndex}-${rowIndex}-${columnIndex}`}
+                style={this.getImageWrapperStyles(rowIndex, columnIndex)}
               >
-                {this.props.renderTile(
-                  this.getTileData(r, c, l[gridIndex]),
-                  this.props.src,
-                  this.getImageStyles(l[gridIndex]),
-                )}
+              {this.props.renderTile(
+                this.getTileData(rowIndex, columnIndex, layers[layerIndex][rowIndex][columnIndex]),
+                this.props.src,
+                this.getImageStyles(layers[layerIndex][rowIndex][columnIndex]),
+              )}
               </div>
             );
           }
-        }
-      }
-      mappedLayers.push(layer);
+        });
+        mappedLayers.push(mappedLayer);
+      });
     });
 
     return mappedLayers;
