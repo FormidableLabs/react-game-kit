@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
-import Gamepad from 'html5-gamepad';
 import Matter from 'matter-js';
 
 import {
@@ -8,8 +7,6 @@ import {
   Body,
   Sprite,
 } from '../../src';
-
-const gamepad = new Gamepad();
 
 @observer
 export default class Character extends Component {
@@ -88,26 +85,26 @@ export default class Character extends Component {
 
     let characterState = 2;
 
-    if (keys.isDown(65) || gamepad.button(0, 'b')) {
+    if (keys.isDown(65)) {
       return this.punch();
     }
 
-    if (keys.isDown(keys.SPACE) || gamepad.button(0, 'a')) {
+    if (keys.isDown(keys.SPACE)) {
       this.jump(body);
     }
 
-    if (keys.isDown(keys.UP) || gamepad.button(0, 'button 12')) {
+    if (keys.isDown(keys.UP)) {
       return this.enterBuilding(body);
     }
 
-    if (keys.isDown(keys.LEFT) || gamepad.button(0, 'button 14')) {
+    if (keys.isDown(keys.LEFT)) {
       if (shouldMoveStageLeft) {
         store.setStageX(store.stageX + 5);
       }
 
       this.move(body, -5);
       characterState = 1;
-    } else if (keys.isDown(keys.RIGHT) || gamepad.button(0, 'button 15')) {
+    } else if (keys.isDown(keys.RIGHT)) {
       if (shouldMoveStageRight) {
         store.setStageX(store.stageX - 5);
       }
@@ -139,8 +136,6 @@ export default class Character extends Component {
     }
 
     if (!this.isJumping && !this.isPunching && !this.isLeaving) {
-      gamepad.update();
-
       this.checkKeys(shouldMoveStageLeft, shouldMoveStageRight);
 
       store.setCharacterPosition(body.position);
