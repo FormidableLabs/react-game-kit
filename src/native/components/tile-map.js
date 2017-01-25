@@ -5,20 +5,29 @@ import { View, Image } from 'react-native';
 export default class TileMap extends Component {
 
   static propTypes = {
-    columns: PropTypes.number,
     layers: PropTypes.array,
-    sourceWidth: PropTypes.number.isRequired,
     renderTile: PropTypes.func,
-    rows: PropTypes.number,
     scale: PropTypes.number,
+    sourceWidth: PropTypes.number.isRequired,
     src: PropTypes.number,
     style: PropTypes.object,
     tileSize: PropTypes.number,
   };
 
   static defaultProps = {
-    columns: 16,
-    layers: [],
+    layers: [
+      [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      ],
+    ],
     renderTile: (tile, src, styles) => (
       <Image
         resizeMode="stretch"
@@ -26,7 +35,6 @@ export default class TileMap extends Component {
         source={src}
       />
     ),
-    rows: 9,
     src: '',
     tileSize: 64,
   };
@@ -40,32 +48,29 @@ export default class TileMap extends Component {
   }
 
   generateMap() {
-    const { columns, layers, rows } = this.props;
+    const { layers } = this.props;
 
     const mappedLayers = [];
 
-    layers.forEach((l, index) => {
-      const layer = [];
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < columns; c++) {
-          const gridIndex = (r * columns) + c;
-          if (l[gridIndex] !== 0) {
-            layer.push(
-              <View
-                key={`tile-${index}-${r}-${c}`}
-                style={this.getImageWrapperStyles(r, c)}
-              >
-                {this.props.renderTile(
-                  this.getTileData(r, c, l[gridIndex]),
-                  this.props.src,
-                  this.getImageStyles(l[gridIndex]),
-                )}
-              </View>
-            );
-          }
-        }
-      }
-      mappedLayers.push(layer);
+    layers.forEach((layer, layerIndex) => {
+      const mappedLayer = [];
+      layer.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+          mappedLayer.push(
+            <div
+              key={`tile-${layerIndex}-${rowIndex}-${columnIndex}`}
+              style={this.getImageWrapperStyles(rowIndex, columnIndex)}
+            >
+            {this.props.renderTile(
+              this.getTileData(rowIndex, columnIndex, layers[layerIndex][rowIndex][columnIndex]),
+              this.props.src,
+              this.getImageStyles(layers[layerIndex][rowIndex][columnIndex]),
+            )}
+            </div>
+          );
+        });
+        mappedLayers.push(mappedLayer);
+      });
     });
 
     return mappedLayers;
@@ -116,7 +121,7 @@ export default class TileMap extends Component {
       overflow: 'hidden',
       position: 'absolute',
       top,
-      left: left,
+      left,
     };
   }
 
