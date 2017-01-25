@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Gamepad from 'html5-gamepad';
 
 import Basics from './basics';
 import Loop from './loop';
@@ -9,8 +8,6 @@ import TileMaps from './tilemaps';
 import Physics from './physics';
 
 const slides = [Basics, Loop, Scaling, Sprites, TileMaps, Physics];
-
-const gamepad = new Gamepad();
 
 export default class Slides extends Component {
 
@@ -32,22 +29,6 @@ export default class Slides extends Component {
   };
 
   startUpdate = () => {
-    gamepad.update();
-    if (gamepad.button(0, 'y')) {
-      this.props.onDone();
-      return;
-    }
-
-    if (gamepad.button(0, 'button 14')) {
-      this.handlePrev(true);
-      return;
-    }
-
-    if (gamepad.button(0, 'button 15')) {
-      this.handleNext(true);
-      return;
-    }
-
     this.animationFrame = requestAnimationFrame(this.startUpdate);
   };
 
