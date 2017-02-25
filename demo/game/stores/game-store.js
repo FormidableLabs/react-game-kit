@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, autorun } from 'mobx';
 
 class GameStore {
   @observable characterPosition = { x: 0, y: 0 };
@@ -7,6 +7,10 @@ class GameStore {
 
   setCharacterPosition(position) {
     this.characterPosition = position;
+  }
+
+  onStageXChange(callback) {
+    autorun(() => callback(this.stageX));
   }
 
   setStageX(x) {
