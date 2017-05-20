@@ -94,7 +94,6 @@ export default class TileMap extends Component {
       position: 'absolute',
       imageRendering: 'pixelated',
       display: 'block',
-      height: '100%',
       transform: `translate(-${left}px, 0px)`,
     };
   }
