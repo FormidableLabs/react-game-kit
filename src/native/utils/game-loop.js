@@ -16,7 +16,10 @@ export default class GameLoop {
     }
   }
   stop() {
-    window.cancelAnimationFrame(this.loop);
+    if (!this.loopID) {
+      window.cancelAnimationFrame(this.loopID);
+      this.loopID = null;
+    }
   }
   subscribe(callback) {
     return this.subscribers.push(callback);
