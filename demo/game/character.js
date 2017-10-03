@@ -179,8 +179,6 @@ export default class Character extends Component {
     const { x, y } = characterPosition;
     const targetX = x + stageX;
 
-    console.log(y);
-
     return {
       position: 'absolute',
       transform: `translate(${targetX * scale}px, ${y * scale}px)`,
