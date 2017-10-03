@@ -6,7 +6,7 @@ module.exports = {
   entry: path.join(__dirname, 'src/index.js'),
   externals: [
     {
-      'react': {
+      react: {
         root: 'React',
         commonjs2: 'react',
         commonjs: 'react',
@@ -28,11 +28,10 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
     ],
   },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,

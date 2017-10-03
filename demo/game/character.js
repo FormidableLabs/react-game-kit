@@ -136,7 +136,9 @@ export default class Character extends Component {
       if (this.isPunching && this.state.spritePlaying === false) {
         this.isPunching = false;
       }
-
+      if (this.isJumping) {
+        store.setCharacterPosition(body.position);
+      }
       const targetX = store.stageX + (this.lastX - body.position.x);
       if (shouldMoveStageLeft || shouldMoveStageRight) {
         store.setStageX(targetX);
@@ -176,6 +178,8 @@ export default class Character extends Component {
     const { scale } = this.context;
     const { x, y } = characterPosition;
     const targetX = x + stageX;
+
+    console.log(y);
 
     return {
       position: 'absolute',
