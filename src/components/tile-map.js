@@ -13,6 +13,8 @@ export default class TileMap extends Component {
     src: PropTypes.string,
     style: PropTypes.object,
     tileSize: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number
   };
 
   static defaultProps = {
@@ -86,17 +88,26 @@ export default class TileMap extends Component {
 
   getImageStyles(imageIndex) {
     const { scale } = this.context;
-    const { tileSize } = this.props;
+    const { tileSize, width, height } = this.props;
 
     const size = Math.round(scale * tileSize);
-    const left = (imageIndex - 1) * size;
+
+    var left, top;
+    if (!width || !height) {
+      left = (imageIndex - 1) * size;
+      top = 0;
+    } else {
+      const cols = width / tileSize;
+      const rows = height / tileSize;
+      left = ((imageIndex - 1) % cols) * Math.round((scale * width) / cols);
+      top = Math.floor((imageIndex - 1) / cols) * Math.round((scale * height) / rows);
+    }
 
     return {
       position: 'absolute',
       imageRendering: 'pixelated',
       display: 'block',
-      height: '100%',
-      transform: `translate(-${left}px, 0px)`,
+      transform: `translate(-${left}px, -${top}px)`,
     };
   }
 
