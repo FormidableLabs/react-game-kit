@@ -1,13 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Matter from 'matter-js';
 
-import {
-  AudioPlayer,
-  Loop,
-  Stage,
-  KeyListener,
-  World,
-} from '../../src';
+import { AudioPlayer, Loop, Stage, KeyListener, World } from '../../src';
 
 import Character from './character';
 import Level from './level';
@@ -19,35 +14,22 @@ const KEY_D = 68;
 const KEY_A = 65;
 
 export default class Game extends Component {
-
   static propTypes = {
     onLeave: PropTypes.func,
   };
 
-  physicsInit = (engine) => {
-    const ground = Matter.Bodies.rectangle(
-      512 * 3, 448,
-      1024 * 3, 64,
-      {
-        isStatic: true,
-      },
-    );
+  physicsInit = engine => {
+    const ground = Matter.Bodies.rectangle(512 * 3, 448, 1024 * 3, 64, {
+      isStatic: true,
+    });
 
-    const leftWall = Matter.Bodies.rectangle(
-      -64, 288,
-      64, 576,
-      {
-        isStatic: true,
-      },
-    );
+    const leftWall = Matter.Bodies.rectangle(-64, 288, 64, 576, {
+      isStatic: true,
+    });
 
-    const rightWall = Matter.Bodies.rectangle(
-      3008, 288,
-      64, 576,
-      {
-        isStatic: true,
-      },
-    );
+    const rightWall = Matter.Bodies.rectangle(3008, 288, 64, 576, {
+      isStatic: true,
+    });
 
     Matter.World.addBody(engine.world, ground);
     Matter.World.addBody(engine.world, leftWall);
@@ -55,32 +37,31 @@ export default class Game extends Component {
 
     Matter.Events.on(engine, 'afterUpdate', this.update);
 
-    const unsubscribeFromUpdate = () => {
+    this.unsubscribeFromUpdate = () => {
       Matter.Events.off(engine, 'afterUpdate', this.update);
-    }
-  }
+    };
+  };
 
-  handleEnterBuilding = (index) => {
+  handleEnterBuilding = index => {
     this.setState({
       fade: true,
     });
     setTimeout(() => {
       this.props.onLeave(index);
     }, 500);
-  }
+  };
 
   update = () => {
-
     // On first press of "d", enable debug mode
     if (this.keyListener.isDown(KEY_D)) {
       if (!this.previousDown) {
         this.previousDown = true;
-        this.setState({debug: !this.state.debug});
+        this.setState({ debug: !this.state.debug });
       }
     } else {
       this.previousDown = false;
     }
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -97,14 +78,18 @@ export default class Game extends Component {
 
   componentDidMount() {
     this.player = new AudioPlayer('/assets/music.wav', () => {
-      this.stopMusic = this.player.play({ loop: true, offset: 1, volume: 0.35 });
+      this.stopMusic = this.player.play({
+        loop: true,
+        offset: 1,
+        volume: 0.35,
+      });
     });
 
     this.setState({
       fade: false,
     });
 
-    this.stageXUIUnsubscribe = GameStore.onStageXChange((stageX) => {
+    this.stageXUIUnsubscribe = GameStore.onStageXChange(stageX => {
       this.forceUpdate();
     });
 
@@ -131,17 +116,19 @@ export default class Game extends Component {
         <Stage style={{ background: '#3a9bdc' }}>
           <World
             onInit={this.physicsInit}
-            debug={this.state.debug && {
-              offset: {
-                x: -GameStore.stageX,
-                y: 0,
-              },
-              background: 'rgba(0, 0, 0, 0.5)',
-            }}
+            debug={
+              this.state.debug ? (
+                {
+                  offset: {
+                    x: -GameStore.stageX,
+                    y: 0,
+                  },
+                  background: 'rgba(0, 0, 0, 0.5)',
+                }
+              ) : null
+            }
           >
-            <Level
-              store={GameStore}
-            />
+            <Level store={GameStore} />
             <Character
               onEnterBuilding={this.handleEnterBuilding}
               store={GameStore}
@@ -153,5 +140,4 @@ export default class Game extends Component {
       </Loop>
     );
   }
-
 }

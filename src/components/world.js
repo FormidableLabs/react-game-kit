@@ -46,11 +46,11 @@ export default class World extends Component {
   };
 
   loop = () => {
-    const currTime = 0.001 * performance.now();
+    const currTime = 0.001 * Date.now();
     Engine.update(
       this.engine,
       1000 / 60,
-      this.lastTime ? currTime / this.lastTime : 1,
+      this.lastTime ? currTime / this.lastTime : 1
     );
     this.lastTime = currTime;
   };
@@ -92,7 +92,6 @@ export default class World extends Component {
   };
 
   setupDebugRenderer = () => {
-
     if (!this._debugRenderElement) {
       return;
     }
@@ -130,8 +129,7 @@ export default class World extends Component {
     Render.run(this._render);
   };
 
-  getCanvasRef = (element) => {
-
+  getCanvasRef = element => {
     this._debugRenderElement = element;
 
     if (element) {
@@ -149,7 +147,7 @@ export default class World extends Component {
     this.loopID = null;
     this.lastTime = null;
 
-    const world = Matter.World.create({gravity: props.gravity});
+    const world = Matter.World.create({ gravity: props.gravity });
 
     this.engine = Engine.create({
       world,
@@ -157,7 +155,7 @@ export default class World extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {gravity} = nextProps;
+    const { gravity } = nextProps;
 
     if (gravity !== this.props.gravity) {
       this.engine.world.gravity = gravity;
@@ -170,7 +168,6 @@ export default class World extends Component {
 
   componentDidUpdate() {
     if (this.props.debug && this._render) {
-
       const { renderWidth, renderHeight, scale } = this.context;
 
       const { offset } = this.getDebugProps();
@@ -186,8 +183,8 @@ export default class World extends Component {
           y: offset.y,
         },
         max: {
-          x: offset.x + (renderWidth / scale),
-          y: offset.y + (renderHeight / scale),
+          x: offset.x + renderWidth / scale,
+          y: offset.y + renderHeight / scale,
         },
       };
 
@@ -232,7 +229,7 @@ export default class World extends Component {
       debugRenderTarget = (
         <canvas
           key="debug-render-target"
-          style={{position: 'relative'}}
+          style={{ position: 'relative' }}
           width={renderWidth}
           height={renderHeight}
           ref={this.getCanvasRef}

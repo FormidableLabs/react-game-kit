@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { AudioPlayer } from '../src';
 
 export default class Intro extends Component {
@@ -8,14 +9,14 @@ export default class Intro extends Component {
 
   startUpdate = () => {
     this.animationFrame = requestAnimationFrame(this.startUpdate);
-  }
+  };
 
-  handleKeyPress = (e) => {
+  handleKeyPress = e => {
     if (e.keyCode === 13) {
       this.startNoise.play();
       this.props.onStart();
     }
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -45,12 +46,12 @@ export default class Intro extends Component {
   render() {
     return (
       <div>
-        <img className="intro" src="assets/intro.png"/>
+        <img className="intro" src="assets/intro.png" />
         <p
           className="start"
           style={{ display: this.state.blink ? 'block' : 'none' }}
         >
-            Press Start
+          Press Start
         </p>
       </div>
     );

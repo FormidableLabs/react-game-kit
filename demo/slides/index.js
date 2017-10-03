@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Basics from './basics';
 import Loop from './loop';
@@ -10,7 +11,6 @@ import Physics from './physics';
 const slides = [Basics, Loop, Scaling, Sprites, TileMaps, Physics];
 
 export default class Slides extends Component {
-
   static propTypes = {
     index: PropTypes.number,
     onDone: PropTypes.func,
@@ -32,7 +32,7 @@ export default class Slides extends Component {
     this.animationFrame = requestAnimationFrame(this.startUpdate);
   };
 
-  handleKeyPress = (e) => {
+  handleKeyPress = e => {
     if (e.keyCode === 27) {
       this.props.onDone();
     }
@@ -53,13 +53,16 @@ export default class Slides extends Component {
     if (currentSlide + 1 === slides[index].slides.length) {
       this.props.onDone();
     } else {
-      this.setState({
-        currentSlide: currentSlide + 1,
-      }, () => {
-        if (restartLoop) {
-          this.restartLoop();
+      this.setState(
+        {
+          currentSlide: currentSlide + 1,
+        },
+        () => {
+          if (restartLoop) {
+            this.restartLoop();
+          }
         }
-      });
+      );
     }
   }
 
@@ -67,13 +70,16 @@ export default class Slides extends Component {
     const { currentSlide } = this.state;
 
     if (currentSlide !== 0) {
-      this.setState({
-        currentSlide: currentSlide - 1,
-      }, () => {
-        if (restartLoop) {
-          this.restartLoop();
+      this.setState(
+        {
+          currentSlide: currentSlide - 1,
+        },
+        () => {
+          if (restartLoop) {
+            this.restartLoop();
+          }
         }
-      });
+      );
     } else if (restartLoop) {
       this.restartLoop();
     }

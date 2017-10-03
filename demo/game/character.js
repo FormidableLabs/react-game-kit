@@ -1,16 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import Matter from 'matter-js';
 
-import {
-  AudioPlayer,
-  Body,
-  Sprite,
-} from '../../src';
+import { AudioPlayer, Body, Sprite } from '../../src';
 
 @observer
 export default class Character extends Component {
-
   static propTypes = {
     keys: PropTypes.object,
     onEnterBuilding: PropTypes.func,
@@ -22,7 +18,7 @@ export default class Character extends Component {
     scale: PropTypes.number,
   };
 
-  handlePlayStateChanged = (state) => {
+  handlePlayStateChanged = state => {
     this.setState({
       spritePlaying: state ? true : false,
     });
@@ -32,14 +28,10 @@ export default class Character extends Component {
     Matter.Body.setVelocity(body, { x, y: 0 });
   };
 
-  jump = (body) => {
+  jump = body => {
     this.jumpNoise.play();
     this.isJumping = true;
-    Matter.Body.applyForce(
-      body,
-      { x: 0, y: 0 },
-      { x: 0, y: -0.15 },
-    );
+    Matter.Body.applyForce(body, { x: 0, y: 0 }, { x: 0, y: -0.15 });
     Matter.Body.set(body, 'friction', 0.0001);
   };
 
@@ -49,13 +41,13 @@ export default class Character extends Component {
       characterState: 4,
       repeat: false,
     });
-  }
+  };
 
-  getDoorIndex = (body) => {
+  getDoorIndex = body => {
     let doorIndex = null;
 
-    const doorPositions = [...Array(6).keys()].map((a) => {
-      return [(512 * a) + 208, (512 * a) + 272];
+    const doorPositions = [...Array(6).keys()].map(a => {
+      return [512 * a + 208, 512 * a + 272];
     });
 
     doorPositions.forEach((dp, di) => {
@@ -65,9 +57,9 @@ export default class Character extends Component {
     });
 
     return doorIndex;
-  }
+  };
 
-  enterBuilding = (body) => {
+  enterBuilding = body => {
     const doorIndex = this.getDoorIndex(body);
 
     if (doorIndex !== null) {
@@ -117,7 +109,7 @@ export default class Character extends Component {
       characterState,
       repeat: characterState < 2,
     });
-  }
+  };
 
   update = () => {
     const { store } = this.props;
@@ -126,7 +118,8 @@ export default class Character extends Component {
     const midPoint = Math.abs(store.stageX) + 448;
 
     const shouldMoveStageLeft = body.position.x < midPoint && store.stageX < 0;
-    const shouldMoveStageRight = body.position.x > midPoint && store.stageX > -2048;
+    const shouldMoveStageRight =
+      body.position.x > midPoint && store.stageX > -2048;
 
     const velY = parseFloat(body.velocity.y.toFixed(10));
 
@@ -199,7 +192,9 @@ export default class Character extends Component {
         <Body
           args={[x, 384, 64, 64]}
           inertia={Infinity}
-          ref={(b) => { this.body = b; }}
+          ref={b => {
+            this.body = b;
+          }}
         >
           <Sprite
             repeat={this.state.repeat}
