@@ -22,8 +22,6 @@ export default class Stage extends Component {
   static childContextTypes = {
     loop: PropTypes.object,
     scale: PropTypes.number,
-    renderWidth: PropTypes.number,
-    renderHeight: PropTypes.number,
   };
 
   setDimensions = () => {
@@ -55,11 +53,8 @@ export default class Stage extends Component {
   }
 
   getChildContext() {
-    const { scale, width, height } = this.getScale();
     return {
-      scale: scale,
-      renderWidth: width,
-      renderHeight: height,
+      scale: this.getScale().scale,
       loop: this.context.loop,
     };
   }

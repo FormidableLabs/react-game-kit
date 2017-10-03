@@ -15,9 +15,6 @@ import Fade from './fade';
 
 import GameStore from './stores/game-store';
 
-const KEY_D = 68;
-const KEY_A = 65;
-
 export default class Game extends Component {
 
   static propTypes = {
@@ -52,12 +49,6 @@ export default class Game extends Component {
     Matter.World.addBody(engine.world, ground);
     Matter.World.addBody(engine.world, leftWall);
     Matter.World.addBody(engine.world, rightWall);
-
-    Matter.Events.on(engine, 'afterUpdate', this.update);
-
-    const unsubscribeFromUpdate = () => {
-      Matter.Events.off(engine, 'afterUpdate', this.update);
-    }
   }
 
   handleEnterBuilding = (index) => {
@@ -69,27 +60,12 @@ export default class Game extends Component {
     }, 500);
   }
 
-  update = () => {
-
-    // On first press of "d", enable debug mode
-    if (this.keyListener.isDown(KEY_D)) {
-      if (!this.previousDown) {
-        this.previousDown = true;
-        this.setState({debug: !this.state.debug});
-      }
-    } else {
-      this.previousDown = false;
-    }
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
       fade: true,
-      debug: false,
     };
-
     this.keyListener = new KeyListener();
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     window.context = window.context || new AudioContext();
@@ -104,25 +80,18 @@ export default class Game extends Component {
       fade: false,
     });
 
-    this.stageXUIUnsubscribe = GameStore.onStageXChange((stageX) => {
-      this.forceUpdate();
-    });
-
     this.keyListener.subscribe([
       this.keyListener.LEFT,
       this.keyListener.RIGHT,
       this.keyListener.UP,
       this.keyListener.SPACE,
-      KEY_A,
-      KEY_D,
+      65,
     ]);
   }
 
   componentWillUnmount() {
     this.stopMusic();
-    this.unsubscribeFromUpdate();
     this.keyListener.unsubscribe();
-    this.stageXUIUnsubscribe();
   }
 
   render() {
@@ -131,13 +100,6 @@ export default class Game extends Component {
         <Stage style={{ background: '#3a9bdc' }}>
           <World
             onInit={this.physicsInit}
-            debug={this.state.debug && {
-              offset: {
-                x: -GameStore.stageX,
-                y: 0,
-              },
-              background: 'rgba(0, 0, 0, 0.5)',
-            }}
           >
             <Level
               store={GameStore}
