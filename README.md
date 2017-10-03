@@ -93,7 +93,7 @@ Once this general structure is established, what follows usually depends on what
 Using this library with React Native is a simple as importing from the native directory:
 
 ```js
-import { Loop, Stage, ...etc } from 'react-game-kit/native'; 
+import { Loop, Stage, ...etc } from 'react-game-kit/native';
 ```
 
 > Note: AudioPlayer and KeyListener are not implemented on the React Native version.
@@ -111,15 +111,15 @@ class ChildComponent extends React.Component {
   static contextTypes = {
     loop: PropTypes.object,
   };
-	
+
   update = () => {
     // tick logic
   };
-	
+
   componentDidMount() {
     this.context.loop.subscribe(this.update);
   }
-	
+
   componentWillUnmount() {
     this.context.loop.unsubscribe(this.update);
   }
@@ -135,7 +135,7 @@ class ChildComponent extends React.Component {
 
 **width** (_number_) : Base game width. Defaults to `1024`.
 
-The `Stage` component also leverages `context` much like `Loop`, except it passes game scale as `this.context.scale`. You can use this value to appropriately scale positioning and dimension values within your game. Again, you would have to specify `scale: PropTypes.number` in your component's `contextTypes` to receive this value. 
+The `Stage` component also leverages `context` much like `Loop`, except it passes game scale as `this.context.scale`. You can use this value to appropriately scale positioning and dimension values within your game. Again, you would have to specify `scale: PropTypes.number` in your component's `contextTypes` to receive this value.
 
 --
 
@@ -217,6 +217,10 @@ The `Sprite` component lets you define sprite animations using sprite sheets. Wh
 **src** (string) : Tilemap image src path.
 
 **tileSize** (number) : Tilemap tile size.
+
+**width** (number) : Tilemap width.
+
+**height** (number) : Tilemap height.
 
 The `TileMap` component lets you define tile maps from a tile atlas. Your tilemap is made of up rows and columns. Each layer is then drawn using those numbers as reference. So for example, if you had 4 rows and 4 columns, with 1 layer, your `layers` prop would look like:
 

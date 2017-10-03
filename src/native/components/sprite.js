@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { View, Image } from 'react-native';
 
@@ -9,7 +10,7 @@ export default class Sprite extends Component {
     onPlayStateChanged: PropTypes.func,
     repeat: PropTypes.bool,
     scale: PropTypes.number,
-    src: PropTypes.number,
+    src: PropTypes.string,
     state: PropTypes.number,
     steps: PropTypes.array,
     style: PropTypes.object,

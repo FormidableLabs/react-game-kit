@@ -46,6 +46,7 @@
     "mobx": "^2.5.0",
     "mobx-react": "^3.5.5",
     "postcss-loader": "^0.10.1",
+    "prop-types": "^15.5.10",
     "raw-loader": "^0.5.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
