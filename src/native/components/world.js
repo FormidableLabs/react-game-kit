@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { View } from 'react-native';
+import {View} from 'react-native';
 
-import Matter, { Engine, Events } from 'matter-js';
+import Matter, {Engine, Events} from 'matter-js';
 
 export default class World extends Component {
-
   static propTypes = {
     children: PropTypes.any,
     gravity: PropTypes.shape({
@@ -40,8 +39,12 @@ export default class World extends Component {
   };
 
   loop = () => {
-    const currTime = 0.001 * Date.now();
-    Engine.update(this.engine, 1000 / 60, this.lastTime ? currTime / this.lastTime : 1);
+    const currTime = 0.001 * performance.now();
+    Engine.update(
+      this.engine,
+      1000 / 60,
+      this.lastTime ? currTime / this.lastTime : 1,
+    );
     this.lastTime = currTime;
   };
 
@@ -51,7 +54,7 @@ export default class World extends Component {
     this.loopID = null;
     this.lastTime = null;
 
-    const world = Matter.World.create({ gravity: props.gravity });
+    const world = Matter.World.create({gravity: props.gravity});
 
     this.engine = Engine.create({
       world,
@@ -59,7 +62,7 @@ export default class World extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { gravity } = nextProps;
+    const {gravity} = nextProps;
 
     if (gravity !== this.props.gravity) {
       this.engine.world.gravity = gravity;
@@ -96,5 +99,4 @@ export default class World extends Component {
       </View>
     );
   }
-
 }
