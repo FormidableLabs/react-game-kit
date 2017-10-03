@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Matter, { Render, Engine, Events } from 'matter-js';
+import Matter, { Engine, Events } from 'matter-js';
 
 export default class World extends Component {
   static propTypes = {
@@ -10,13 +10,6 @@ export default class World extends Component {
       x: PropTypes.number,
       y: PropTypes.number,
       scale: PropTypes.number,
-    }),
-    debug: PropTypes.shape({
-      offset: PropTypes.shape({
-        x: PropTypes.number,
-        y: PropTypes.number,
-      }),
-      background: PropTypes.string,
     }),
     onCollision: PropTypes.func,
     onInit: PropTypes.func,
@@ -36,8 +29,6 @@ export default class World extends Component {
 
   static contextTypes = {
     scale: PropTypes.number,
-    renderWidth: PropTypes.number,
-    renderHeight: PropTypes.number,
     loop: PropTypes.object,
   };
 
@@ -53,92 +44,6 @@ export default class World extends Component {
       this.lastTime ? currTime / this.lastTime : 1
     );
     this.lastTime = currTime;
-  };
-
-  onInit = (...args) => {
-    if (this.props.debug) {
-      this.setupDebugRenderer();
-    }
-
-    this.props.onInit(...args);
-  };
-
-  stopDebugRendering = () => {
-    if (this._render) {
-      Render.stop(this._render);
-      delete this._render;
-    }
-  };
-
-  getDebugProps = () => {
-    const debugProps = Object.assign(
-      {
-        offset: {},
-        // transparent background to see sprites, etc, in the world
-        background: 'rgba(0, 0, 0, 0)',
-      },
-      this.props.debug || {}
-    );
-
-    debugProps.offset = Object.assign(
-      {
-        x: 0,
-        y: 0,
-      },
-      debugProps.offset
-    );
-
-    return debugProps;
-  };
-
-  setupDebugRenderer = () => {
-    if (!this._debugRenderElement) {
-      return;
-    }
-
-    const { renderWidth, renderHeight, scale } = this.context;
-    const { offset, background } = this.getDebugProps();
-
-    const width = renderWidth / scale;
-    const height = renderHeight / scale;
-
-    this._render = Render.create({
-      canvas: this._debugRenderElement,
-      // Auto-zoom the canvas to the correct game area
-      bounds: {
-        min: {
-          x: offset.x,
-          y: offset.y,
-        },
-        max: {
-          x: offset.x + width,
-          y: offset.y + height,
-        },
-      },
-      options: {
-        wireframeBackground: background,
-        width: renderWidth,
-        height: renderHeight,
-      },
-    });
-
-    // Setting this as part of `.create` crashes Chrome during a deep clone. :/
-    // My guess: a circular reference
-    this._render.engine = this.engine;
-
-    Render.run(this._render);
-  };
-
-  getCanvasRef = element => {
-    this._debugRenderElement = element;
-
-    if (element) {
-      if (!this._render) {
-        this.setupDebugRenderer();
-      }
-    } else {
-      this.stopDebugRendering();
-    }
   };
 
   constructor(props) {
@@ -160,41 +65,11 @@ export default class World extends Component {
     if (gravity !== this.props.gravity) {
       this.engine.world.gravity = gravity;
     }
-
-    if (!nextProps.debug) {
-      this.stopDebugRendering();
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.props.debug && this._render) {
-      const { renderWidth, renderHeight, scale } = this.context;
-
-      const { offset } = this.getDebugProps();
-
-      // When context changes (eg; `scale` due to a window resize),
-      // re-calculate the world stage
-      this._render.options.width = renderWidth;
-      this._render.options.height = renderHeight;
-
-      this._render.bounds = {
-        min: {
-          x: offset.x,
-          y: offset.y,
-        },
-        max: {
-          x: offset.x + renderWidth / scale,
-          y: offset.y + renderHeight / scale,
-        },
-      };
-
-      Render.world(this._render);
-    }
   }
 
   componentDidMount() {
     this.loopID = this.context.loop.subscribe(this.loop);
-    this.onInit(this.engine);
+    this.props.onInit(this.engine);
     Events.on(this.engine, 'afterUpdate', this.props.onUpdate);
     Events.on(this.engine, 'collisionStart', this.props.onCollision);
   }
@@ -203,7 +78,6 @@ export default class World extends Component {
     this.context.loop.unsubscribe(this.loopID);
     Events.off(this.engine, 'afterUpdate', this.props.onUpdate);
     Events.off(this.engine, 'collisionStart', this.props.onCollision);
-    this.stopDebugRendering();
   }
 
   getChildContext() {
@@ -221,27 +95,6 @@ export default class World extends Component {
       width: '100%',
     };
 
-    const { renderWidth, renderHeight, scale } = this.context;
-
-    let debugRenderTarget = false;
-
-    if (this.props.debug) {
-      debugRenderTarget = (
-        <canvas
-          key="debug-render-target"
-          style={{ position: 'relative' }}
-          width={renderWidth}
-          height={renderHeight}
-          ref={this.getCanvasRef}
-        />
-      );
-    }
-
-    return (
-      <div style={defaultStyles}>
-        {this.props.children}
-        {debugRenderTarget}
-      </div>
-    );
+    return <div style={defaultStyles}>{this.props.children}</div>;
   }
 }
