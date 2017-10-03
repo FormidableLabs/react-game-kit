@@ -1,6 +1,6 @@
 {
   "name": "react-game-kit",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Make games with react",
   "main": "lib",
   "files": [
