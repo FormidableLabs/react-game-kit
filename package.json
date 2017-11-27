@@ -12,12 +12,16 @@
     "start": "webpack-dev-server --hot --inline --port 3000 --config webpack.config.dev.js --content-base demo/",
     "build": "babel src -d lib --copy-files",
     "clean": "rimraf dist",
+    "clean-build": "rimraf lib",
     "clean-umd": "rimraf umd",
     "copy-assets": "cp -a demo/assets/. dist/assets",
     "copy-html-css": "cp -a demo/index.html dist/index.html && cp -a demo/index.css dist/index.css",
     "dist": "npm run clean && webpack && npm run copy-assets && npm run copy-html-css",
-    "lint": "eslint src demo --fix",
-    "umd": "npm run clean-umd && webpack --config webpack.config.umd.js"
+    "lint": "eslint src demo",
+    "lint-fix": "eslint src demo --fix",
+    "umd": "npm run clean-umd && webpack --config webpack.config.umd.js",
+    "preversion": "npm run lint",
+    "version": "npm run clean-build && npm run build && npm run umd"
   },
   "author": "Ken Wheeler",
   "license": "MIT",
