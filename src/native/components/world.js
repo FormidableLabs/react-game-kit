@@ -39,7 +39,7 @@ export default class World extends Component {
   };
 
   loop = () => {
-    const currTime = 0.001 * performance.now();
+    const currTime = 0.001 * Date.now();
     Engine.update(
       this.engine,
       1000 / 60,
