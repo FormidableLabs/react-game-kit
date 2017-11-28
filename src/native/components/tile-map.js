@@ -117,7 +117,7 @@ export default class TileMap extends Component {
       overflow: 'hidden',
       position: 'absolute',
       top,
-      left: left,
+      left,
     };
   }
 

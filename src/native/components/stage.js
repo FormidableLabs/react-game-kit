@@ -70,7 +70,7 @@ export default class Stage extends Component {
 
   getWrapperStyles() {
     return {
-      flex: 1
+      flex: 1,
     };
   }
 
