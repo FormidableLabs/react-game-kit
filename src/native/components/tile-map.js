@@ -8,10 +8,10 @@ export default class TileMap extends Component {
   static propTypes = {
     columns: PropTypes.number,
     layers: PropTypes.array,
-    sourceWidth: PropTypes.number.isRequired,
     renderTile: PropTypes.func,
     rows: PropTypes.number,
     scale: PropTypes.number,
+    sourceWidth: PropTypes.number.isRequired,
     src: PropTypes.number,
     style: PropTypes.object,
     tileSize: PropTypes.number,
