@@ -1,0 +1,18 @@
+language: node_js
+
+node_js:
+  - "4"
+  - "6"
+  - "8"
+
+branches:
+  only:
+    - master
+
+script:
+  - npm run lint
+
+  # Prune deps to just production and ensure we can still build
+  - npm prune --production
+  - npm run build
+  - npm run umd
