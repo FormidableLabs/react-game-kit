@@ -40,7 +40,7 @@ export default class Loop extends Component {
 
   render() {
     const defaultStyles = {
-      flex: 1
+      flex: 1,
     };
     const styles = { ...defaultStyles, ...this.props.style };
     return (

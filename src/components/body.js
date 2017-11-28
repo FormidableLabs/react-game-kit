@@ -79,14 +79,14 @@ export default class Body extends Component {
   constructor(props, context) {
     super(props);
 
-    const { args, children, shape, ...options } = props;
+    const { args, children, shape, ...options } = props; // eslint-disable-line no-unused-vars
 
     this.body = Bodies[shape](...args, options);
     World.addBody(context.engine.world, this.body);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { args, children, shape, ...options } = nextProps;
+    const { args, children, shape, ...options } = nextProps; // eslint-disable-line no-unused-vars
 
     Object.keys(options).forEach((option) => {
       if (option in this.body && this.props[option] !== nextProps[option]) {

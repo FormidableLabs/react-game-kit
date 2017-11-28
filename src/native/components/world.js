@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {View} from 'react-native';
+import { View } from 'react-native';
 
-import Matter, {Engine, Events} from 'matter-js';
+import Matter, { Engine, Events } from 'matter-js';
 
 export default class World extends Component {
   static propTypes = {
@@ -54,7 +54,7 @@ export default class World extends Component {
     this.loopID = null;
     this.lastTime = null;
 
-    const world = Matter.World.create({gravity: props.gravity});
+    const world = Matter.World.create({ gravity: props.gravity });
 
     this.engine = Engine.create({
       world,
@@ -62,7 +62,7 @@ export default class World extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {gravity} = nextProps;
+    const { gravity } = nextProps;
 
     if (gravity !== this.props.gravity) {
       this.engine.world.gravity = gravity;
