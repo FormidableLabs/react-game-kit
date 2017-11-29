@@ -3,7 +3,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: ['react-hot-loader/patch', './demo/index'],
+  entry: [
+    'react-hot-loader/patch',
+    './demo/index'
+  ],
   output: {
     path: __dirname,
     filename: 'bundle.js',
@@ -17,7 +20,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            //plugins: ['react-hot-loader/babel']
+            plugins: ['react-hot-loader/babel']
           },
         },
       },
