@@ -1,3 +1,5 @@
+/* global __dirname:false */
+
 const path = require('path');
 const webpack = require('webpack');
 
@@ -17,15 +19,19 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin(),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader',
+        use: {
+          loader: 'style-loader!css-loader!postcss-loader',
+        },
       },
     ],
   },

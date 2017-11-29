@@ -1,5 +1,6 @@
+/* global __dirname:false */
+
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
   entry: ['react-hot-loader/patch', './demo/index'],
@@ -9,20 +10,29 @@ module.exports = {
     publicPath: '/',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['babel-loader'],
         include: [path.join(__dirname, 'src'), path.join(__dirname, 'demo')],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            //plugins: ['react-hot-loader/babel']
+          },
+        },
       },
       {
         test: /\.json$/,
-        loaders: ['json-loader'],
+        use: {
+          loader: 'json-loader',
+        },
       },
       {
         test: /\.css$/,
         include: [path.join(__dirname, 'src'), path.join(__dirname, 'demo')],
-        loader: 'style-loader!css-loader!postcss-loader',
+        use: {
+          loader: 'style-loader!css-loader!postcss-loader',
+        },
       },
     ],
   },
