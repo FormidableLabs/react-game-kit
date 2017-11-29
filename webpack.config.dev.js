@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
   entry: [
     'react-hot-loader/patch',
-    './demo/index'
+    './demo/index',
   ],
   output: {
     path: __dirname,
@@ -20,7 +20,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: ['react-hot-loader/babel']
+            plugins: ['react-hot-loader/babel'],
           },
         },
       },

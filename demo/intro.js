@@ -7,23 +7,15 @@ export default class Intro extends Component {
     onStart: PropTypes.func,
   };
 
-  startUpdate = () => {
-    this.animationFrame = requestAnimationFrame(this.startUpdate);
-  };
-
-  handleKeyPress = e => {
-    if (e.keyCode === 13) {
-      this.startNoise.play();
-      this.props.onStart();
-    }
-  };
-
   constructor(props) {
     super(props);
 
     this.state = {
       blink: false,
     };
+
+    this.startUpdate = this.startUpdate.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   componentDidMount() {
@@ -55,5 +47,16 @@ export default class Intro extends Component {
         </p>
       </div>
     );
+  }
+
+  startUpdate() {
+    this.animationFrame = requestAnimationFrame(this.startUpdate);
+  }
+
+  handleKeyPress(e) {
+    if (e.keyCode === 13) {
+      this.startNoise.play();
+      this.props.onStart();
+    }
   }
 }
