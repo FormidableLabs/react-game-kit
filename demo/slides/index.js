@@ -16,23 +16,73 @@ export default class Slides extends Component {
     onDone: PropTypes.func,
   };
 
-  restartLoop = () => {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentSlide: 0,
+    };
+
+    this.restartLoop = this.restartLoop.bind(this);
+    this.highlight = this.highlight.bind(this);
+    this.startUpdate = this.startUpdate.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handlePrev = this.handlePrev.bind(this);
+  }
+
+  componentDidMount() {
+    this.highlight();
+    window.addEventListener('keyup', this.handleKeyPress);
+    window.addEventListener('keypress', this.handleKeyPress);
+    this.animationFrame = requestAnimationFrame(this.startUpdate);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keyup', this.handleKeyPress);
+    window.removeEventListener('keypress', this.handleKeyPress);
+    cancelAnimationFrame(this.animationFrame);
+  }
+
+  componentDidUpdate() {
+    this.highlight();
+  }
+
+  getWrapperStyles() {
+    return {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      alignItems: 'stretch',
+      justifyContent: 'center',
+    };
+  }
+
+  render() {
+    return (
+      <div style={this.getWrapperStyles()}>
+        {slides[this.props.index].slides[this.state.currentSlide]}
+      </div>
+    );
+  }
+
+  restartLoop() {
     setTimeout(() => {
       this.startUpdate();
     }, 300);
   };
 
-  highlight = () => {
+  highlight() {
     if (window.Prism) {
       window.Prism.highlightAll();
     }
   };
 
-  startUpdate = () => {
+  startUpdate() {
     this.animationFrame = requestAnimationFrame(this.startUpdate);
   };
 
-  handleKeyPress = e => {
+  handleKeyPress(e) {
     if (e.keyCode === 27) {
       this.props.onDone();
     }
@@ -83,48 +133,5 @@ export default class Slides extends Component {
     } else if (restartLoop) {
       this.restartLoop();
     }
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentSlide: 0,
-    };
-  }
-
-  componentDidMount() {
-    this.highlight();
-    window.addEventListener('keyup', this.handleKeyPress);
-    window.addEventListener('keypress', this.handleKeyPress);
-    this.animationFrame = requestAnimationFrame(this.startUpdate);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keyup', this.handleKeyPress);
-    window.removeEventListener('keypress', this.handleKeyPress);
-    cancelAnimationFrame(this.animationFrame);
-  }
-
-  componentDidUpdate() {
-    this.highlight();
-  }
-
-  getWrapperStyles() {
-    return {
-      height: '100%',
-      width: '100%',
-      display: 'flex',
-      alignItems: 'stretch',
-      justifyContent: 'center',
-    };
-  }
-
-  render() {
-    return (
-      <div style={this.getWrapperStyles()}>
-        {slides[this.props.index].slides[this.state.currentSlide]}
-      </div>
-    );
   }
 }

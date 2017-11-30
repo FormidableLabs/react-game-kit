@@ -15,44 +15,6 @@ export default class Game extends Component {
     onLeave: PropTypes.func,
   };
 
-  physicsInit = engine => {
-    const ground = Matter.Bodies.rectangle(512 * 3, 448, 1024 * 3, 64, {
-      isStatic: true,
-    });
-
-    const leftWall = Matter.Bodies.rectangle(-64, 288, 64, 576, {
-      isStatic: true,
-    });
-
-    const rightWall = Matter.Bodies.rectangle(3008, 288, 64, 576, {
-      isStatic: true,
-    });
-
-    Matter.World.addBody(engine.world, ground);
-    Matter.World.addBody(engine.world, leftWall);
-    Matter.World.addBody(engine.world, rightWall);
-  };
-
-  handleEnterBuilding = index => {
-    this.setState({
-      fade: true,
-    });
-    setTimeout(() => {
-      this.props.onLeave(index);
-    }, 500);
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      fade: true,
-    };
-    this.keyListener = new KeyListener();
-    window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    window.context = window.context || new AudioContext();
-  }
-
   componentDidMount() {
     this.player = new AudioPlayer('/assets/music.wav', () => {
       this.stopMusic = this.player.play({
@@ -96,5 +58,45 @@ export default class Game extends Component {
         <Fade visible={this.state.fade} />
       </Loop>
     );
+  }
+
+  physicsInit(engine) {
+    const ground = Matter.Bodies.rectangle(512 * 3, 448, 1024 * 3, 64, {
+      isStatic: true,
+    });
+
+    const leftWall = Matter.Bodies.rectangle(-64, 288, 64, 576, {
+      isStatic: true,
+    });
+
+    const rightWall = Matter.Bodies.rectangle(3008, 288, 64, 576, {
+      isStatic: true,
+    });
+
+    Matter.World.addBody(engine.world, ground);
+    Matter.World.addBody(engine.world, leftWall);
+    Matter.World.addBody(engine.world, rightWall);
+  };
+
+  handleEnterBuilding(index) {
+    this.setState({
+      fade: true,
+    });
+    setTimeout(() => {
+      this.props.onLeave(index);
+    }, 500);
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fade: true,
+    };
+    this.keyListener = new KeyListener();
+    window.AudioContext = window.AudioContext || window.webkitAudioContext;
+    window.context = window.context || new AudioContext();
+
+    this.handleEnterBuilding = this.handleEnterBuilding.bind(this);
   }
 }
