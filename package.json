@@ -19,9 +19,9 @@
     "dist": "npm run clean && webpack && npm run copy-assets && npm run copy-html-css",
     "lint": "eslint src demo *.js",
     "lint-fix": "eslint src demo *.js --fix",
-    "umd": "npm run clean-umd && webpack --config webpack.config.umd.js",
+    "umd": "webpack --config webpack.config.umd.js",
     "preversion": "npm run lint",
-    "version": "npm run clean-build && npm run build && npm run umd"
+    "version": "npm run clean-build && npm run build && npm run clean-umd && npm run umd"
   },
   "author": "Ken Wheeler",
   "license": "MIT",
