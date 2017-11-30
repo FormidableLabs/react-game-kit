@@ -6,6 +6,12 @@ module.exports = {
   entry: path.join(__dirname, 'src/index.js'),
   externals: [
     {
+      'prop-types': {
+        root: 'PropTypes',
+        commonjs2: 'prop-types',
+        commonjs: 'prop-types',
+        amd: 'prop-types',
+      },
       react: {
         root: 'React',
         commonjs2: 'react',
@@ -27,8 +33,14 @@ module.exports = {
     path: path.join(__dirname, 'umd'),
   },
   module: {
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
     ],
   },
   plugins: [

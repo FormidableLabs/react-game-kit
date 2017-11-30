@@ -24,15 +24,6 @@ export default class Stage extends Component {
     scale: PropTypes.number,
   };
 
-  setDimensions = () => {
-    this.setState({
-      dimensions: [
-        this.container.offsetWidth,
-        this.container.offsetHeight,
-      ],
-    });
-  }
-
   constructor(props) {
     super(props);
 
@@ -41,6 +32,8 @@ export default class Stage extends Component {
     this.state = {
       dimensions: [0, 0],
     };
+
+    this.setDimensions = this.setDimensions.bind(this);
   }
 
   componentDidMount() {
@@ -124,4 +117,12 @@ export default class Stage extends Component {
     );
   }
 
+  setDimensions() {
+    this.setState({
+      dimensions: [
+        this.container.offsetWidth,
+        this.container.offsetHeight,
+      ],
+    });
+  }
 }

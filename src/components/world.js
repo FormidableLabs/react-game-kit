@@ -36,16 +36,6 @@ export default class World extends Component {
     engine: PropTypes.object,
   };
 
-  loop = () => {
-    const currTime = 0.001 * Date.now();
-    Engine.update(
-      this.engine,
-      1000 / 60,
-      this.lastTime ? currTime / this.lastTime : 1
-    );
-    this.lastTime = currTime;
-  };
-
   constructor(props) {
     super(props);
 
@@ -57,6 +47,8 @@ export default class World extends Component {
     this.engine = Engine.create({
       world,
     });
+
+    this.loop = this.loop.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -96,5 +88,15 @@ export default class World extends Component {
     };
 
     return <div style={defaultStyles}>{this.props.children}</div>;
+  }
+
+  loop() {
+    const currTime = 0.001 * Date.now();
+    Engine.update(
+      this.engine,
+      1000 / 60,
+      this.lastTime ? currTime / this.lastTime : 1
+    );
+    this.lastTime = currTime;
   }
 }

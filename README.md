@@ -112,10 +112,6 @@ class ChildComponent extends React.Component {
     loop: PropTypes.object,
   };
 
-  update = () => {
-    // tick logic
-  };
-
   componentDidMount() {
     this.context.loop.subscribe(this.update);
   }
@@ -123,6 +119,10 @@ class ChildComponent extends React.Component {
   componentWillUnmount() {
     this.context.loop.unsubscribe(this.update);
   }
+
+  update() {
+    // tick logic
+  };
 }
 
 ```

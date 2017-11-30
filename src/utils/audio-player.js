@@ -12,7 +12,7 @@ export default class AudioPlayer {
     this.loadBuffer();
   }
 
-  play = (options) => {
+  play(options) {
     const volume = options && options.volume;
     const offset = options && options.offset;
     const loop = options && options.loop;
@@ -30,7 +30,8 @@ export default class AudioPlayer {
     return source.stop.bind(source);
   }
 
-  loadBuffer = () => {
+
+  loadBuffer() {
     const request = new XMLHttpRequest();
     request.open('GET', this.url, true);
     request.responseType = 'arraybuffer';

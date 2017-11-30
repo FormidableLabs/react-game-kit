@@ -6,25 +6,35 @@ export default class KeyListener {
   DOWN = 40;
   SPACE = 32;
 
-  down = (event) => {
+  constructor() {
+    this.keys = {};
+
+    this.down = this.down.bind(this);
+    this.up = this.up.bind(this);
+    this.isDown = this.isDown.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
+  }
+
+  down(event) {
     if (event.keyCode in this.keys) {
       event.preventDefault();
       this.keys[event.keyCode] = true;
     }
-  };
+  }
 
-  up = (event) => {
+  up(event) {
     if (event.keyCode in this.keys) {
       event.preventDefault();
       this.keys[event.keyCode] = false;
     }
-  };
+  }
 
-  isDown = (keyCode) => {
+  isDown(keyCode) {
     return this.keys[keyCode] || false;
   }
 
-  subscribe = (keys) => {
+  subscribe(keys) {
     window.addEventListener('keydown', this.down);
     window.addEventListener('keyup', this.up);
 
@@ -33,14 +43,9 @@ export default class KeyListener {
     });
   }
 
-  unsubscribe = () => {
+  unsubscribe() {
     window.removeEventListener('keydown', this.down);
     window.removeEventListener('keyup', this.up);
     this.keys = {};
   }
-
-  constructor() {
-    this.keys = {};
-  }
-
 }
