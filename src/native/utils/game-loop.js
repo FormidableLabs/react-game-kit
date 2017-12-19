@@ -2,6 +2,7 @@ export default class GameLoop {
   constructor() {
     this.subscribers = [];
     this.loopID = null;
+    this.loop = this.loop.bind(this);
   }
 
   start() {
@@ -22,7 +23,7 @@ export default class GameLoop {
   }
 
   unsubscribe(id) {
-    this.subscribers.splice((id - 1), 1);
+    delete this.subscribers[id - 1];
   }
 
   loop() {
