@@ -72,7 +72,7 @@ render() {
     <Loop>
       <Stage>
         <World>
-          <Body args={[0,0,75,75]} ref={(b) => this.body = b.body; }>
+          <Body args={[0,0,75,75]} ref={ (b) => this.body = b.body }>
             // Sprites go here
           </Body>
         </World>
