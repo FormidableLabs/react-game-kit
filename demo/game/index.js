@@ -38,7 +38,9 @@ export default class Game extends Component {
   }
 
   componentWillUnmount() {
-    this.stopMusic();
+    if(this.stopMusic){
+      this.stopMusic();
+    }
     this.keyListener.unsubscribe();
   }
 
