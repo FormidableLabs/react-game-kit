@@ -17,6 +17,8 @@ export default class Sprite extends Component {
     ticksPerFrame: PropTypes.number,
     tileHeight: PropTypes.number,
     tileWidth: PropTypes.number,
+    sourceHeight: PropTypes.number,
+    sourceWidth: PropTypes.number
   };
 
   static defaultProps = {
@@ -29,6 +31,8 @@ export default class Sprite extends Component {
     ticksPerFrame: 4,
     tileHeight: 64,
     tileWidth: 64,
+    sourceHeight: 64,
+    sourceWidth: 64
   };
 
   static contextTypes = {
@@ -52,6 +56,10 @@ export default class Sprite extends Component {
     this.props.onPlayStateChanged(1);
     const animate = this.animate.bind(this, this.props);
     this.loopID = this.context.loop.subscribe(animate);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    return componentWillReceiveProps(nextProps)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -109,6 +117,8 @@ export default class Sprite extends Component {
 
     return {
       position: 'absolute',
+      height: this.props.sourceHeight,
+      width: this.props.sourceWidth,
       transform: [
         { translateX: left * -1 },
         { translateY: top * -1 },
