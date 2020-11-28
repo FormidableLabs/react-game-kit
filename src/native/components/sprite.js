@@ -59,7 +59,7 @@ export default class Sprite extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    return componentWillReceiveProps(nextProps)
+    return this.componentWillReceiveProps(nextProps)
   }
 
   componentWillReceiveProps(nextProps) {
