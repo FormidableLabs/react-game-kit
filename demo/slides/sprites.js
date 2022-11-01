@@ -26,14 +26,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/sprite-manual.example')}
+          {require('raw-loader!../code-samples/sprite-manual.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/sprite-style.example')}
+          {require('raw-loader!../code-samples/sprite-style.example').default}
         </code>
       </pre>
     </Slide>,
@@ -43,7 +43,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/sprite.example')}
+          {require('raw-loader!../code-samples/sprite.example').default}
         </code>
       </pre>
     </Slide>,

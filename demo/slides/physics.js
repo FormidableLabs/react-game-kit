@@ -11,7 +11,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-simple.example')}
+          {require('raw-loader!../code-samples/physics-simple.example').default}
         </code>
       </pre>
     </Slide>,
@@ -24,14 +24,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-world.example')}
+          {require('raw-loader!../code-samples/physics-world.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-world-init.example')}
+          {require('raw-loader!../code-samples/physics-world-init.example').default}
         </code>
       </pre>
     </Slide>,
@@ -41,7 +41,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-update.example')}
+          {require('raw-loader!../code-samples/physics-update.example').default}
         </code>
       </pre>
     </Slide>,
@@ -51,14 +51,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-body.example')}
+          {require('raw-loader!../code-samples/physics-body.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-body-update.example')}
+          {require('raw-loader!../code-samples/physics-body-update.example').default}
         </code>
       </pre>
     </Slide>,
@@ -71,21 +71,21 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-store.example')}
+          {require('raw-loader!../code-samples/physics-store.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-mobx-update.example')}
+          {require('raw-loader!../code-samples/physics-mobx-update.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/physics-style.example')}
+          {require('raw-loader!../code-samples/physics-style.example').default}
         </code>
       </pre>
     </Slide>,

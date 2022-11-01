@@ -26,7 +26,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap-map.example')}
+          {require('raw-loader!../code-samples/tilemap-map.example').default}
         </code>
       </pre>
     </Slide>,
@@ -36,14 +36,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap-manual.example')}
+          {require('raw-loader!../code-samples/tilemap-manual.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap-render.example')}
+          {require('raw-loader!../code-samples/tilemap-render.example').default}
         </code>
       </pre>
     </Slide>,
@@ -53,14 +53,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap.example')}
+          {require('raw-loader!../code-samples/tilemap.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap-buildings.example')}
+          {require('raw-loader!../code-samples/tilemap-buildings.example').default}
         </code>
       </pre>
     </Slide>,
@@ -70,7 +70,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/tilemap-custom.example')}
+          {require('raw-loader!../code-samples/tilemap-custom.example').default}
         </code>
       </pre>
     </Slide>,
