@@ -23,7 +23,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/stage.example')}
+          {require('raw-loader!../code-samples/stage.example').default}
         </code>
       </pre>
     </Slide>,
@@ -33,14 +33,14 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/stage-size.example')}
+          {require('raw-loader!../code-samples/stage-size.example').default}
         </code>
       </pre>
     </Slide>,
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/stage-use.example')}
+          {require('raw-loader!../code-samples/stage-use.example').default}
         </code>
       </pre>
     </Slide>,
@@ -50,7 +50,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/stage-blurry.example')}
+          {require('raw-loader!../code-samples/stage-blurry.example').default}
         </code>
       </pre>
     </Slide>,

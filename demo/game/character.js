@@ -5,8 +5,7 @@ import Matter from 'matter-js';
 
 import { AudioPlayer, Body, Sprite } from '../../src';
 
-@observer
-export default class Character extends Component {
+export default @observer class Character extends Component {
   static propTypes = {
     keys: PropTypes.object,
     onEnterBuilding: PropTypes.func,

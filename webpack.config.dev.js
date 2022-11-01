@@ -3,6 +3,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: [
     'react-hot-loader/patch',
     './demo/index',
@@ -11,6 +12,10 @@ module.exports = {
     path: __dirname,
     filename: 'bundle.js',
     publicPath: '/',
+  },
+  devServer: {
+    static: path.resolve(__dirname, 'demo'),
+    port: 3000,
   },
   module: {
     rules: [

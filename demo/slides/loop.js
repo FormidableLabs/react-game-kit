@@ -2,6 +2,7 @@
 import React from 'react';
 import Slide from './slide';
 
+
 export default {
   slides: [
     <Slide>
@@ -13,7 +14,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/raf.example')}
+          {require('raw-loader!../code-samples/raf.example').default}
         </code>
       </pre>
     </Slide>,
@@ -23,7 +24,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/loop.example')}
+          {require('raw-loader!../code-samples/loop.example').default}
         </code>
       </pre>
     </Slide>,
@@ -33,7 +34,7 @@ export default {
     <Slide>
       <pre>
         <code className="language-javascript">
-          {require('raw-loader!../code-samples/loop-use.example')}
+          {require('raw-loader!../code-samples/loop-use.example').default}
         </code>
       </pre>
     </Slide>,
