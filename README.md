@@ -1,13 +1,14 @@
-[![Maintenance Status][maintenance-image]](#maintenance-status)
-
-
-<h1 align="center">react-game-kit</h1>
+<a href="https://formidable.com/open-source/" target="_blank">
+  <img alt="React Game Kit — Formidable, We build the modern web" src="./react-game-kit-Hero.png" />
+</a>
 
 <h4 align="center">
   Make games with React & React Native!
 </h4>
 
 ***
+
+[![Maintenance Status][maintenance-image]](#maintenance-status)
 
 <!-- MarkdownTOC depth=3 autolink=true bracket=round -->
 
