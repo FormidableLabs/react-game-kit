@@ -116,11 +116,11 @@ class ChildComponent extends React.Component {
   };
 
   componentDidMount() {
-    this.context.loop.subscribe(this.update);
+    this.loopID = this.context.loop.subscribe(this.update);
   }
 
   componentWillUnmount() {
-    this.context.loop.unsubscribe(this.update);
+    this.context.loop.unsubscribe(this.loopID);
   }
 
   update() {
