@@ -53,7 +53,7 @@ export default class Sprite extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.state !== this.props.state) {
+    if (nextProps.state !== this.props.state || nextProps.ticksPerFrame !== this.props.ticksPerFrame) {
       this.finished = false;
       this.props.onPlayStateChanged(1);
       this.context.loop.unsubscribe(this.loopID);
